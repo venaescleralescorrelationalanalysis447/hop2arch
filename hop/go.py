@@ -888,6 +888,16 @@ class _Go:
         against the hopfile itself because that is how the scanner wrote it,
         then the directory hop go would have asked for.
         """
+        # Everything in whatever this returns is copied onto the stick whole, so
+        # the value decides what leaves the machine. It comes out of the hopfile,
+        # and hop/land.py says why that is not a value to trust: a hopfile is a
+        # file like any other, it can be edited, and it can be handed to you.
+        # ``payload_dir: "C:/Users/you/.ssh"`` or ``"../../.ssh"`` would put that
+        # directory on a FAT32 stick with no permissions on it. land.py refuses a
+        # restore target outside your home; this is the same rule pointing the
+        # other way, and the pair of them is the whole of hop's position on
+        # payload paths.
+        roots = [hopfile.parent.resolve(), self.out_dir.resolve()]
         candidates: list[Path] = []
         stamped = plan.hopfile.get("payload_dir")
         if stamped:
@@ -895,8 +905,18 @@ class _Go:
         candidates.append(self.out_dir / "hop-payload")
         for candidate in candidates:
             try:
-                if candidate.is_dir() and any(candidate.iterdir()):
-                    return candidate
+                if not (candidate.is_dir() and any(candidate.iterdir())):
+                    continue
+                settled = candidate.resolve()
+                if not any(settled == root or settled.is_relative_to(root) for root in roots):
+                    self._wrapped(
+                        f"The hopfile points payload_dir at {settled}, which is outside the "
+                        "directory the hopfile is in. hop is not copying that onto the stick. "
+                        "If you meant it, move those files next to the hopfile and run again."
+                    )
+                    self._say()
+                    continue
+                return settled
             except OSError:
                 continue
         return None

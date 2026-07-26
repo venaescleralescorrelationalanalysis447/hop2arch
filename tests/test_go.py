@@ -950,3 +950,69 @@ def test_a_payload_that_will_not_travel_is_said_not_to_be_travelling(
     assert "cannot find the payload directory" in flattened
     assert "none of it is going onto the stick" in flattened
     assert "FAT32, which has no file permissions" not in flattened
+
+
+# --- where the payload is read from ----------------------------------------
+
+
+def _payload_dir_for(tmp_path: Path, stamped: str) -> tuple[Path | None, str]:
+    """Ask _Go where it would read the payload from, and what it said about it."""
+    from hop.plan import Plan
+
+    inbox = tmp_path / "inbox"
+    inbox.mkdir(exist_ok=True)
+    hopfile = inbox / "received.json"
+    hopfile.write_text("{}", encoding="utf-8")
+
+    outside = tmp_path / "ssh"
+    outside.mkdir(exist_ok=True)
+    (outside / "id_ed25519").write_text("PRIVATE KEY", encoding="utf-8")
+
+    beside = inbox / "hop-payload"
+    beside.mkdir(exist_ok=True)
+    (beside / "wallpaper.jpg").write_bytes(b"x")
+
+    driver = go._Go.__new__(go._Go)
+    driver.out_dir = tmp_path / "hop-out"
+    driver.out = StringIO()
+    stamped = stamped.replace("{outside}", str(outside))
+    plan = Plan(hopfile={"payload_dir": stamped}, target={}, system={})
+    return driver._payload_dir(plan, hopfile), driver.out.getvalue()
+
+
+@pytest.mark.parametrize("stamped", ["../ssh", "{outside}", "./../ssh"])
+def test_the_hopfile_cannot_point_the_payload_outside_its_own_directory(
+    tmp_path: Path, stamped: str
+) -> None:
+    """Everything in the payload directory is copied onto the stick whole, so this
+    value decides what leaves the machine — onto FAT32, which has no permissions.
+
+    hop/land.py refuses a restore target outside your home for exactly this
+    reason: a hopfile is a file like any other, it can be edited, and it can be
+    handed to you. This is the same rule pointing the other way.
+    """
+    found, said = _payload_dir_for(tmp_path, stamped)
+    assert found is None
+    assert "outside the directory the hopfile is in" in " ".join(said.split())
+
+
+def test_a_payload_beside_the_hopfile_is_still_used(tmp_path: Path) -> None:
+    found, said = _payload_dir_for(tmp_path, "hop-payload")
+    assert found is not None
+    assert found.name == "hop-payload"
+    assert said == "", "a legitimate payload directory should not be explained away"
+
+
+def test_the_refusal_is_said_out_loud_rather_than_silently_skipped(tmp_path: Path) -> None:
+    """Quietly using a different directory than the hopfile named is its own
+    confusion: the transcript would print a path the user never asked for."""
+    _, said = _payload_dir_for(tmp_path, "{outside}")
+    assert "hop is not copying that onto the stick" in " ".join(said.split())
+
+
+def test_a_payload_dir_that_is_not_there_needs_no_explanation(tmp_path: Path) -> None:
+    """A path that escapes and does not exist is refused by simply not being
+    found. Explaining a directory the user does not have would be noise."""
+    found, said = _payload_dir_for(tmp_path, "../../ssh")
+    assert found is None
+    assert said == ""

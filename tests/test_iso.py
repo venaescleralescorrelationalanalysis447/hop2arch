@@ -14,9 +14,11 @@ checksum and the image come from the same mirror; only the signature separates
 from __future__ import annotations
 
 import datetime as _dt
+import email.message
 import hashlib
 import io
 import urllib.error
+import urllib.request
 from pathlib import Path
 from typing import IO
 
@@ -618,3 +620,43 @@ def test_the_copy_does_not_carry_the_read_only_bit(tmp_path: Path) -> None:
     copied = dest / "vmlinuz-linux"
     assert copied.read_bytes() == b"kernel"
     copied.write_bytes(b"still writable")
+
+
+# --- redirects: staying on TLS --------------------------------------------
+
+
+def _redirect(newurl: str):
+    """Drive the redirect handler the default opener installs, without a socket."""
+    from hop.iso import _HttpsOnlyRedirects
+
+    handler = _HttpsOnlyRedirects()
+    request = urllib.request.Request("https://mirror.example/archlinux/iso/latest/")
+    return handler.redirect_request(
+        request, io.BytesIO(b""), 302, "Found", email.message.Message(), newurl
+    )
+
+
+@pytest.mark.parametrize(
+    "newurl",
+    [
+        "http://mirror.example/archlinux/iso/latest/",
+        "http://evil.example/archlinux/",
+        "ftp://mirror.example/archlinux/",
+        "HTTP://MIRROR.EXAMPLE/archlinux/",
+    ],
+)
+def test_a_redirect_off_https_is_refused(newurl: str) -> None:
+    """urllib's own policy allows a 302 from https into http or ftp, and tells the
+    caller nothing about it. The checksum is only a check on the transfer, so the
+    signature is the real defence — and on Windows, where hop go runs, gpg is
+    usually absent and that defence is the question hop has to leave open. Losing
+    TLS on the platform where the backstop is missing is not a place to relax."""
+    with pytest.raises(urllib.error.HTTPError) as excinfo:
+        _redirect(newurl)
+    assert "not https" in str(excinfo.value)
+
+
+def test_a_redirect_that_stays_on_https_is_followed() -> None:
+    request = _redirect("https://mirror.example/archlinux/iso/latest/")
+    assert request is not None
+    assert request.full_url.startswith("https://")

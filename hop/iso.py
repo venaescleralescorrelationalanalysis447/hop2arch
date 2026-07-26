@@ -909,6 +909,38 @@ def volume_label(iso_path: str | Path, *, runner: Runner | None = None) -> str:
 # --- the defaults the tests replace ----------------------------------------
 
 
+class _HttpsOnlyRedirects(urllib.request.HTTPRedirectHandler):
+    """Follow redirects, but never off HTTPS.
+
+    urllib's own policy accepts a redirect into any of http, https and ftp, so a
+    mirror answering an https:// request with ``302 http://elsewhere`` gets the
+    rest of the transfer in clear text, and the caller is told nothing unless it
+    thinks to ask ``geturl()``. :func:`_require_https` checks the URL hop *asks*
+    for, which is a different string from the one it ends up reading.
+
+    That matters here more than it usually would. The checksum is only ever a
+    check on the transfer, so the signature is the real defence — and on Windows,
+    which is where ``hop go`` runs, gpg is usually not installed and the signature
+    is the question hop has to leave open. Losing the transport on the platform
+    where the backstop is missing is the wrong place to be relaxed. It would also
+    make :class:`VerifyResult`'s own sentence, which says the checksum came over
+    HTTPS, quietly untrue.
+    """
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):  # noqa: ANN001, ANN201
+        if not newurl.lower().startswith("https://"):
+            raise urllib.error.HTTPError(
+                req.full_url,
+                code,
+                f"redirected to {newurl!r}, which is not https. hop will not follow a mirror "
+                "off TLS: the rest of the transfer, checksum included, would arrive in clear "
+                "text. Pick another mirror, or fetch the image by hand and check its signature.",
+                headers,
+                fp,
+            )
+        return super().redirect_request(req, fp, code, msg, headers, newurl)
+
+
 def _default_opener(timeout: float) -> Opener:
     """urllib, with a timeout and a user agent that admits what it is.
 
@@ -916,10 +948,19 @@ def _default_opener(timeout: float) -> Opener:
     is the main reason every entry point here takes an opener instead of calling
     urlopen directly.
     """
+    director = urllib.request.build_opener(_HttpsOnlyRedirects)
 
     def opener(url: str) -> IO[bytes]:
         request = urllib.request.Request(url, headers={"User-Agent": _USER_AGENT})
-        return urllib.request.urlopen(request, timeout=timeout)
+        response = director.open(request, timeout=timeout)
+        # Belt and braces. The handler above is the thing that stops it, but the
+        # cost of confirming where we actually landed is one attribute read, and
+        # a handler can be replaced by a caller passing its own opener.
+        final = getattr(response, "url", None) or response.geturl()
+        if not str(final).lower().startswith("https://"):
+            response.close()
+            raise IsoError(f"the transfer ended up at {final!r}, which is not https")
+        return response
 
     return opener
 
