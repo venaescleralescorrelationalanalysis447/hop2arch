@@ -1,0 +1,958 @@
+{
+  "hopfile_version": 1,
+  "generated_at": "2026-07-24T21:06:33Z",
+  "generator": "hop-scan.ps1/0.1.0",
+  "payload_dir": "hop-payload",
+  "system": {
+    "hostname": "NB-ARTEM",
+    "windows": {
+      "caption": "Microsoft Windows 11 Pro",
+      "version": "10.0.22631",
+      "build": "22631",
+      "edition": "Professional",
+      "install_date": "2024-02-17T18:44:00Z"
+    },
+    "firmware": "UEFI",
+    "secure_boot": true,
+    "tpm": true,
+    "locale": "ru-RU",
+    "ui_language": "en-US",
+    "keyboard_layouts": [
+      "00000409",
+      "00000419"
+    ],
+    "timezone": {
+      "windows": "Russian Standard Time",
+      "iana": "Europe/Moscow",
+      "utc_offset_minutes": 180
+    },
+    "cpu": {
+      "name": "12th Gen Intel(R) Core(TM) i7-12700H",
+      "vendor": "GenuineIntel",
+      "cores": 14,
+      "threads": 20
+    },
+    "memory_gb": 32,
+    "gpus": [
+      {
+        "name": "Intel(R) UHD Graphics",
+        "vendor": "intel",
+        "driver_version": "31.0.101.5333"
+      },
+      {
+        "name": "NVIDIA GeForce RTX 3060 Laptop GPU",
+        "vendor": "nvidia",
+        "driver_version": "560.94"
+      }
+    ],
+    "chassis": "laptop",
+    "battery": true
+  },
+  "disks": [
+    {
+      "index": 0,
+      "model": "SAMSUNG MZVL21T0HCLR-00B00",
+      "size_bytes": 1024209543168,
+      "bus": "NVMe",
+      "partition_style": "GPT",
+      "system_disk": true,
+      "partitions": [
+        {
+          "letter": null,
+          "label": "EFI system partition",
+          "fs": "FAT32",
+          "size_bytes": 268435456,
+          "free_bytes": 205520896,
+          "bitlocker": "off",
+          "kind": "efi"
+        },
+        {
+          "letter": null,
+          "label": null,
+          "fs": null,
+          "size_bytes": 16777216,
+          "free_bytes": 0,
+          "bitlocker": "unknown",
+          "kind": "reserved"
+        },
+        {
+          "letter": "C",
+          "label": "Windows",
+          "fs": "NTFS",
+          "size_bytes": 1022875754496,
+          "free_bytes": 118111600640,
+          "bitlocker": "on",
+          "kind": "basic"
+        },
+        {
+          "letter": null,
+          "label": "Recovery",
+          "fs": "NTFS",
+          "size_bytes": 1048576000,
+          "free_bytes": 71303168,
+          "bitlocker": "off",
+          "kind": "recovery"
+        }
+      ]
+    },
+    {
+      "index": 1,
+      "model": "ST2000LM015-2E8174",
+      "size_bytes": 2000398934016,
+      "bus": "SATA",
+      "partition_style": "GPT",
+      "system_disk": false,
+      "partitions": [
+        {
+          "letter": "D",
+          "label": "Data",
+          "fs": "NTFS",
+          "size_bytes": 2000263118848,
+          "free_bytes": 341453275136,
+          "bitlocker": "off",
+          "kind": "basic"
+        }
+      ]
+    }
+  ],
+  "user": {
+    "name": "artem",
+    "full_name": "Артём Соколов",
+    "profile_path": "C:\\Users\\artem",
+    "folders": {
+      "Desktop": {
+        "path": "C:\\Users\\artem\\Desktop",
+        "size_bytes": 184549376,
+        "files": 63
+      },
+      "Documents": {
+        "path": "C:\\Users\\artem\\Documents",
+        "size_bytes": 12884901888,
+        "files": 8421
+      },
+      "Downloads": {
+        "path": "C:\\Users\\artem\\Downloads",
+        "size_bytes": 42949672960,
+        "files": 1937
+      },
+      "Pictures": {
+        "path": "C:\\Users\\artem\\Pictures",
+        "size_bytes": 32212254720,
+        "files": 24610
+      },
+      "Music": {
+        "path": "C:\\Users\\artem\\Music",
+        "size_bytes": 6442450944,
+        "files": 1204
+      },
+      "Videos": {
+        "path": "C:\\Users\\artem\\Videos",
+        "size_bytes": 214748364800,
+        "files": 412
+      }
+    },
+    "onedrive": {
+      "present": true,
+      "path": "C:\\Users\\artem\\OneDrive",
+      "size_bytes": 27917287424
+    }
+  },
+  "software": [
+    {
+      "name": "7-Zip 24.07 (x64)",
+      "version": "24.07",
+      "publisher": "Igor Pavlov",
+      "sources": [
+        "registry",
+        "winget"
+      ],
+      "winget_id": "7zip.7zip",
+      "install_location": "C:\\Program Files\\7-Zip",
+      "size_bytes": 5242880,
+      "system_component": false
+    },
+    {
+      "name": "Adobe After Effects 2024",
+      "version": "24.5.0",
+      "publisher": "Adobe Inc.",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Adobe.AfterEffects",
+      "install_location": "C:\\Program Files\\Adobe\\Adobe After Effects 2024",
+      "size_bytes": 3865470566,
+      "system_component": false
+    },
+    {
+      "name": "Adobe Photoshop 2024",
+      "version": "25.9.1",
+      "publisher": "Adobe Inc.",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Adobe.Photoshop",
+      "install_location": "C:\\Program Files\\Adobe\\Adobe Photoshop 2024",
+      "size_bytes": 5368709120,
+      "system_component": false
+    },
+    {
+      "name": "Adobe Premiere Pro 2024",
+      "version": "24.5.0",
+      "publisher": "Adobe Inc.",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Adobe.PremierePro",
+      "install_location": "C:\\Program Files\\Adobe\\Adobe Premiere Pro 2024",
+      "size_bytes": 4831838208,
+      "system_component": false
+    },
+    {
+      "name": "Affinity Photo 2",
+      "version": "2.5.3",
+      "publisher": "Serif (Europe) Ltd",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Serif.Affinity.Photo",
+      "install_location": "C:\\Program Files\\Affinity\\Photo 2",
+      "size_bytes": 1181116006,
+      "system_component": false
+    },
+    {
+      "name": "Battle.net",
+      "version": "2.36.0.15268",
+      "publisher": "Blizzard Entertainment",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Blizzard.BattleNet",
+      "install_location": "C:\\Program Files (x86)\\Battle.net",
+      "size_bytes": 314572800,
+      "system_component": false
+    },
+    {
+      "name": "CCleaner",
+      "version": "6.26",
+      "publisher": "Piriform Software Ltd",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Piriform.CCleaner",
+      "install_location": "C:\\Program Files\\CCleaner",
+      "size_bytes": 62914560,
+      "system_component": false
+    },
+    {
+      "name": "Discord",
+      "version": "1.0.9155",
+      "publisher": "Discord Inc.",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Discord.Discord",
+      "install_location": "C:\\Users\\artem\\AppData\\Local\\Discord\\app-1.0.9155",
+      "size_bytes": 587202560,
+      "system_component": false
+    },
+    {
+      "name": "Docker Desktop",
+      "version": "4.32.0",
+      "publisher": "Docker Inc.",
+      "sources": [
+        "registry",
+        "winget"
+      ],
+      "winget_id": "Docker.DockerDesktop",
+      "install_location": "C:\\Program Files\\Docker\\Docker",
+      "size_bytes": 2469606195,
+      "system_component": false
+    },
+    {
+      "name": "EA app",
+      "version": "13.301.0.5745",
+      "publisher": "Electronic Arts",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "ElectronicArts.EADesktop",
+      "install_location": "C:\\Program Files\\Electronic Arts\\EA Desktop",
+      "size_bytes": 1288490188,
+      "system_component": false
+    },
+    {
+      "name": "Figma",
+      "version": "124.5.5",
+      "publisher": "Figma, Inc.",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Figma.Figma",
+      "install_location": "C:\\Users\\artem\\AppData\\Local\\Figma",
+      "size_bytes": 419430400,
+      "system_component": false
+    },
+    {
+      "name": "FortiClient VPN",
+      "version": "7.4.0.1658",
+      "publisher": "Fortinet Technologies Inc.",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Fortinet.FortiClientVPN",
+      "install_location": "C:\\Program Files\\Fortinet\\FortiClient",
+      "size_bytes": 314572800,
+      "system_component": false
+    },
+    {
+      "name": "Git",
+      "version": "2.45.2",
+      "publisher": "The Git Development Community",
+      "sources": [
+        "registry",
+        "winget"
+      ],
+      "winget_id": "Git.Git",
+      "install_location": "C:\\Program Files\\Git",
+      "size_bytes": 356515840,
+      "system_component": false
+    },
+    {
+      "name": "Google Chrome",
+      "version": "127.0.6533.73",
+      "publisher": "Google LLC",
+      "sources": [
+        "registry",
+        "winget"
+      ],
+      "winget_id": "Google.Chrome",
+      "install_location": "C:\\Program Files\\Google\\Chrome\\Application",
+      "size_bytes": 618659840,
+      "system_component": false
+    },
+    {
+      "name": "Intel Chipset Device Software",
+      "version": "10.1.19444.8378",
+      "publisher": "Intel Corporation",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": null,
+      "size_bytes": 8388608,
+      "system_component": true
+    },
+    {
+      "name": "MSI Afterburner 4.6.6",
+      "version": "4.6.6",
+      "publisher": "MSI Co., LTD",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": "C:\\Program Files (x86)\\MSI Afterburner",
+      "size_bytes": 88080384,
+      "system_component": false
+    },
+    {
+      "name": "Microsoft 365 - ru-ru",
+      "version": "16.0.17726.20126",
+      "publisher": "Microsoft Corporation",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Microsoft.Office",
+      "install_location": "C:\\Program Files\\Microsoft Office",
+      "size_bytes": 3221225472,
+      "system_component": false
+    },
+    {
+      "name": "Microsoft Edge WebView2 Runtime",
+      "version": "126.0.2592.113",
+      "publisher": "Microsoft Corporation",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": "C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application",
+      "size_bytes": 419430400,
+      "system_component": true
+    },
+    {
+      "name": "Microsoft PowerToys",
+      "version": "0.83.0",
+      "publisher": "Microsoft Corporation",
+      "sources": [
+        "registry",
+        "winget"
+      ],
+      "winget_id": "Microsoft.PowerToys",
+      "install_location": "C:\\Program Files\\PowerToys",
+      "size_bytes": 587202560,
+      "system_component": false
+    },
+    {
+      "name": "Microsoft Teams",
+      "version": "24165.1414.2987.5613",
+      "publisher": "Microsoft Corporation",
+      "sources": [
+        "store",
+        "registry"
+      ],
+      "winget_id": "Microsoft.Teams",
+      "install_location": "C:\\Program Files\\WindowsApps\\MSTeams_24165.1414.2987.5613_x64__8wekyb3d8bbwe",
+      "size_bytes": 461373440,
+      "system_component": false
+    },
+    {
+      "name": "Microsoft Visual C++ 2015-2022 Redistributable (x64) - 14.40.33810",
+      "version": "14.40.33810.0",
+      "publisher": "Microsoft Corporation",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": null,
+      "size_bytes": 25165824,
+      "system_component": true
+    },
+    {
+      "name": "Microsoft Visual C++ 2015-2022 Redistributable (x86) - 14.40.33810",
+      "version": "14.40.33810.0",
+      "publisher": "Microsoft Corporation",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": null,
+      "size_bytes": 21495808,
+      "system_component": true
+    },
+    {
+      "name": "Microsoft Visual Studio Code",
+      "version": "1.91.1",
+      "publisher": "Microsoft Corporation",
+      "sources": [
+        "registry",
+        "winget"
+      ],
+      "winget_id": "Microsoft.VisualStudioCode",
+      "install_location": "C:\\Program Files\\Microsoft VS Code",
+      "size_bytes": 398458880,
+      "system_component": false
+    },
+    {
+      "name": "Microsoft Visual Studio Community 2022",
+      "version": "17.10.4",
+      "publisher": "Microsoft Corporation",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Microsoft.VisualStudio.2022.Community",
+      "install_location": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community",
+      "size_bytes": 13743895347,
+      "system_component": false
+    },
+    {
+      "name": "Mozilla Firefox (x64 ru)",
+      "version": "128.0.3",
+      "publisher": "Mozilla",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Mozilla.Firefox",
+      "install_location": "C:\\Program Files\\Mozilla Firefox",
+      "size_bytes": 249561088,
+      "system_component": false
+    },
+    {
+      "name": "NVIDIA GeForce Experience",
+      "version": "3.28.0.417",
+      "publisher": "NVIDIA Corporation",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": "C:\\Program Files\\NVIDIA Corporation\\NVIDIA GeForce Experience",
+      "size_bytes": 692060160,
+      "system_component": false
+    },
+    {
+      "name": "Node.js",
+      "version": "20.15.1",
+      "publisher": "Node.js Foundation",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "OpenJS.NodeJS.LTS",
+      "install_location": "C:\\Program Files\\nodejs",
+      "size_bytes": 94371840,
+      "system_component": false
+    },
+    {
+      "name": "Notepad++ (64-bit x64)",
+      "version": "8.6.9",
+      "publisher": "Notepad++ Team",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Notepad++.Notepad++",
+      "install_location": "C:\\Program Files\\Notepad++",
+      "size_bytes": 20971520,
+      "system_component": false
+    },
+    {
+      "name": "OBS Studio",
+      "version": "30.2.2",
+      "publisher": "OBS Project",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "OBSProject.OBSStudio",
+      "install_location": "C:\\Program Files\\obs-studio",
+      "size_bytes": 587202560,
+      "system_component": false
+    },
+    {
+      "name": "Pantum P2200 Series Printer Utility",
+      "version": "1.6.2",
+      "publisher": "Zhuhai Pantum Electronics Co., Ltd.",
+      "sources": "registry",
+      "winget_id": null,
+      "install_location": "C:\\Program Files (x86)\\Pantum\\P2200 Series",
+      "size_bytes": 73400320,
+      "system_component": false
+    },
+    {
+      "name": "Python 3.12.4 (64-bit)",
+      "version": "3.12.4150.0",
+      "publisher": "Python Software Foundation",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Python.Python.3.12",
+      "install_location": "C:\\Users\\artem\\AppData\\Local\\Programs\\Python\\Python312",
+      "size_bytes": 130023424,
+      "system_component": false
+    },
+    {
+      "name": "Realtek High Definition Audio Driver",
+      "version": "6.0.9628.1",
+      "publisher": "Realtek Semiconductor Corp.",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": null,
+      "size_bytes": 41943040,
+      "system_component": true
+    },
+    {
+      "name": "Spotify",
+      "version": "1.2.42.290",
+      "publisher": "Spotify AB",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Spotify.Spotify",
+      "install_location": "C:\\Users\\artem\\AppData\\Roaming\\Spotify",
+      "size_bytes": 293601280,
+      "system_component": false
+    },
+    {
+      "name": "Steam",
+      "version": "1720214053",
+      "publisher": "Valve Corporation",
+      "sources": [
+        "registry",
+        "winget"
+      ],
+      "winget_id": "Valve.Steam",
+      "install_location": "C:\\Program Files (x86)\\Steam",
+      "size_bytes": 943718400,
+      "system_component": false
+    },
+    {
+      "name": "Telegram Desktop",
+      "version": "5.2.3",
+      "publisher": "Telegram FZ-LLC",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Telegram.TelegramDesktop",
+      "install_location": "C:\\Users\\artem\\AppData\\Roaming\\Telegram Desktop",
+      "size_bytes": 134217728,
+      "system_component": false
+    },
+    {
+      "name": "Total Commander 11.03",
+      "version": "11.03",
+      "publisher": "Ghisler Software GmbH",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Ghisler.TotalCommander",
+      "install_location": "C:\\totalcmd",
+      "size_bytes": 41943040,
+      "system_component": false
+    },
+    {
+      "name": "Ubisoft Connect",
+      "version": "153.0",
+      "publisher": "Ubisoft",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "Ubisoft.Connect",
+      "install_location": "C:\\Program Files (x86)\\Ubisoft\\Ubisoft Game Launcher",
+      "size_bytes": 682692608,
+      "system_component": false
+    },
+    {
+      "name": "VLC media player",
+      "version": "3.0.21",
+      "publisher": "VideoLAN",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "VideoLAN.VLC",
+      "install_location": "C:\\Program Files\\VideoLAN\\VLC",
+      "size_bytes": 178257920,
+      "system_component": false
+    },
+    {
+      "name": "Windows Subsystem for Linux",
+      "version": "2.2.4.0",
+      "publisher": "Microsoft Corporation",
+      "sources": [
+        "store"
+      ],
+      "winget_id": null,
+      "install_location": null,
+      "size_bytes": 0,
+      "system_component": false
+    },
+    {
+      "name": "WinRAR 7.01 (64-разрядная)",
+      "version": "7.01.0",
+      "publisher": "win.rar GmbH",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": "C:\\Program Files\\WinRAR",
+      "size_bytes": 11534336,
+      "system_component": false
+    },
+    {
+      "name": "qBittorrent 4.6.5",
+      "version": "4.6.5",
+      "publisher": "The qBittorrent project",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": "qBittorrent.qBittorrent",
+      "install_location": "C:\\Program Files\\qBittorrent",
+      "size_bytes": 62914560,
+      "system_component": false
+    },
+    {
+      "name": "{AC76BA86-1033-1033-7760-BC15014EA700}",
+      "version": null,
+      "publisher": null,
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": null,
+      "size_bytes": 0,
+      "system_component": false
+    },
+    {
+      "name": "КриптоПро CSP 5.0.12000",
+      "version": "5.0.12900",
+      "publisher": "ООО \"КРИПТО-ПРО\"",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": "C:\\Program Files (x86)\\Crypto Pro\\CSP",
+      "size_bytes": 209715200,
+      "system_component": false
+    },
+    {
+      "name": "Сбербанк Бизнес Онлайн",
+      "version": "3.4.1",
+      "publisher": "ПАО Сбербанк",
+      "sources": [
+        "registry"
+      ],
+      "winget_id": null,
+      "install_location": "C:\\Program Files (x86)\\Sberbank\\SBBOL",
+      "size_bytes": 167772160,
+      "system_component": false
+    }
+  ],
+  "dev": {
+    "git": {
+      "present": true,
+      "user_name": "Artem Sokolov",
+      "user_email": "artem.sokolov@example.com",
+      "default_branch": "main"
+    },
+    "ssh_keys": [
+      {
+        "file": "id_ed25519",
+        "type": "ed25519",
+        "encrypted": true,
+        "public_key": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH4kQ3n1cV0pR7sYtLmZ2bXfWq9dJgKoP5eCuNvT8aRi artem@nb-artem"
+      }
+    ],
+    "gpg": {
+      "present": false,
+      "key_ids": []
+    },
+    "wsl": {
+      "present": true,
+      "distros": [
+        {
+          "name": "Ubuntu-22.04",
+          "version": 2,
+          "default": true
+        }
+      ]
+    },
+    "vscode": {
+      "present": true,
+      "flavor": "code",
+      "extensions": [
+        "ms-python.python",
+        "ms-vscode-remote.remote-wsl",
+        "ms-azuretools.vscode-docker",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "eamodio.gitlens",
+        "redhat.vscode-yaml",
+        "vscodevim.vim"
+      ],
+      "settings": true
+    },
+    "runtimes": {
+      "node": "20.15.1",
+      "python": "3.12.4",
+      "dotnet": "8.0.303",
+      "java": null,
+      "go": null,
+      "rustup": null
+    },
+    "shell": {
+      "powershell_profile": true,
+      "windows_terminal": true
+    }
+  },
+  "browsers": [
+    {
+      "id": "chrome",
+      "name": "Google Chrome",
+      "default": true,
+      "profiles": [
+        {
+          "name": "Default",
+          "path": "C:\\Users\\artem\\AppData\\Local\\Google\\Chrome\\User Data\\Default"
+        },
+        {
+          "name": "Profile 1",
+          "path": "C:\\Users\\artem\\AppData\\Local\\Google\\Chrome\\User Data\\Profile 1"
+        }
+      ],
+      "bookmark_count": 412
+    },
+    {
+      "id": "firefox",
+      "name": "Mozilla Firefox",
+      "default": false,
+      "profiles": [
+        {
+          "name": "default-release",
+          "path": "C:\\Users\\artem\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\k3n8x2qa.default-release"
+        }
+      ],
+      "bookmark_count": 87
+    }
+  ],
+  "network": {
+    "hostname": "NB-ARTEM",
+    "wifi_profiles": [
+      {
+        "ssid": "MGTS_GPON_1F4C",
+        "auth": "WPA2PSK",
+        "has_secret": true
+      },
+      {
+        "ssid": "eduroam",
+        "auth": "WPA2-Enterprise",
+        "has_secret": false
+      }
+    ],
+    "hosts_entries": 4
+  },
+  "gaming": {
+    "steam": {
+      "present": true,
+      "libraries": [
+        "D:\\SteamLibrary\\steamapps"
+      ],
+      "games": [
+        {
+          "appid": 359550,
+          "name": "Tom Clancy's Rainbow Six Siege",
+          "size_bytes": 61055467520
+        },
+        {
+          "appid": 1085660,
+          "name": "Destiny 2",
+          "size_bytes": 112742891520
+        },
+        {
+          "appid": 271590,
+          "name": "Grand Theft Auto V",
+          "size_bytes": 105226698752
+        },
+        {
+          "appid": 730,
+          "name": "Counter-Strike 2",
+          "size_bytes": 36507222016
+        },
+        {
+          "appid": 1091500,
+          "name": "Cyberpunk 2077",
+          "size_bytes": 76235669504
+        },
+        {
+          "appid": 1086940,
+          "name": "Baldur's Gate 3",
+          "size_bytes": 130996502528
+        },
+        {
+          "appid": 1245620,
+          "name": "ELDEN RING",
+          "size_bytes": 54760833024
+        },
+        {
+          "appid": 413150,
+          "name": "Stardew Valley",
+          "size_bytes": 1181116006
+        },
+        {
+          "appid": 1794680,
+          "name": "Vampire Survivors",
+          "size_bytes": 524288000
+        }
+      ]
+    },
+    "epic": {
+      "present": false,
+      "games": []
+    },
+    "gog": {
+      "present": false,
+      "games": []
+    }
+  },
+  "personalization": {
+    "wallpaper": "C:\\Users\\artem\\AppData\\Roaming\\Microsoft\\Windows\\Themes\\CachedFiles\\CachedImage_3840_2160_POS4.jpg",
+    "theme": "dark",
+    "accent_color": "#0078D4",
+    "fonts_user": [
+      "JetBrainsMono-Regular.ttf",
+      "PTSans-Regular.ttf"
+    ]
+  },
+  "payload": {
+    "entries": [
+      {
+        "kind": "ssh",
+        "path": "ssh/id_ed25519",
+        "restore_to": "~/.ssh/id_ed25519",
+        "mode": "0600"
+      },
+      {
+        "kind": "ssh",
+        "path": "ssh/id_ed25519.pub",
+        "restore_to": "~/.ssh/id_ed25519.pub",
+        "mode": "0644"
+      },
+      {
+        "kind": "ssh",
+        "path": "ssh/config",
+        "restore_to": "~/.ssh/config",
+        "mode": "0600"
+      },
+      {
+        "kind": "wifi",
+        "path": "wifi/MGTS_GPON_1F4C.json",
+        "restore_to": null,
+        "mode": "0600"
+      },
+      {
+        "kind": "bookmarks",
+        "path": "browsers/chrome-bookmarks.html",
+        "restore_to": null,
+        "mode": "0644"
+      },
+      {
+        "kind": "bookmarks",
+        "path": "browsers/firefox-bookmarks.html",
+        "restore_to": null,
+        "mode": "0644"
+      },
+      {
+        "kind": "gitconfig",
+        "path": "dev/gitconfig",
+        "restore_to": "~/.gitconfig",
+        "mode": "0644"
+      },
+      {
+        "kind": "terminal",
+        "path": "terminal/windows-terminal-settings.json",
+        "restore_to": null,
+        "mode": "0644"
+      },
+      {
+        "kind": "vscode",
+        "path": "vscode/settings.json",
+        "restore_to": "~/.config/Code/User/settings.json",
+        "mode": "0644"
+      },
+      {
+        "kind": "vscode",
+        "path": "vscode/extensions.txt",
+        "restore_to": null,
+        "mode": "0644"
+      },
+      {
+        "kind": "wallpaper",
+        "path": "personalization/CachedImage_3840_2160_POS4.jpg",
+        "restore_to": "~/Pictures/wallpaper.jpg",
+        "mode": "0644"
+      },
+      {
+        "kind": "font",
+        "path": "fonts/JetBrainsMono-Regular.ttf",
+        "restore_to": "~/.local/share/fonts/JetBrainsMono-Regular.ttf",
+        "mode": "0644"
+      },
+      {
+        "kind": "font",
+        "path": "fonts/PTSans-Regular.ttf",
+        "restore_to": "~/.local/share/fonts/PTSans-Regular.ttf",
+        "mode": "0644"
+      }
+    ]
+  },
+  "warnings": [
+    "BitLocker is on for C:. Export the recovery key and keep it somewhere that is not this machine before you change anything about the partition table; once the disk is repartitioned the key is the only way back to the data.",
+    "Documents and OneDrive sizes are estimates. Files that OneDrive keeps online-only take almost no space on this disk, so the real amount you have to move may be larger than the number here.",
+    "The Wi-Fi password for 1 of 2 saved networks was exported into hop-payload/. That directory is plain text — do not put it in a public issue, and delete it once you have landed."
+  ]
+}

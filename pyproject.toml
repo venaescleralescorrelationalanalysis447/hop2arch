@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hop2arch"
+version = "0.1.0"
+description = "Hop from Windows to Arch Linux: scan the machine you are leaving, plan the one you are building, land on it."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "hop2arch contributors" }]
+keywords = ["arch", "archlinux", "windows", "migration", "pacman", "dotfiles"]
+classifiers = [
+  "Environment :: Console",
+  "Intended Audience :: End Users/Desktop",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: System :: Installation/Setup",
+]
+dependencies = []
+
+[project.scripts]
+hop = "hop.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Ramirmir/hop2arch"
+Issues = "https://github.com/Ramirmir/hop2arch/issues"
+
+[tool.setuptools]
+packages = ["hop"]
+
+[tool.setuptools.package-data]
+# The database lives inside the package. A glob that climbs out of the package
+# directory ("../data/*.toml") does produce a wheel, but it lands the files in a
+# top-level site-packages/data/ that any other distribution can collide with,
+# and it relies on path arithmetic setuptools never promised to keep.
+hop = ["data/*.toml"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

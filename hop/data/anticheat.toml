@@ -1,0 +1,392 @@
+# Anti-cheat and game compatibility snapshot.
+#
+# This file is a point-in-time snapshot, not a live feed. Anti-cheat support is
+# a publisher policy switch: Easy Anti-Cheat and BattlEye both have Proton
+# support that the game's publisher has to turn on, and either of them can be
+# turned off again in a patch. Apex Legends worked for years and then stopped.
+#
+# ProtonDB (protondb.com) and areweanticheatyet.com are the live sources of
+# truth. Check them for anything you actually care about before you commit to
+# wiping Windows.
+#
+# status values:
+#   blocked - anti-cheat or publisher policy refuses to run on Linux at all
+#   broken  - it launches, but a mode you probably care about does not work
+#   works   - plays on Proton or has a native Linux build
+#   unknown - genuinely contested or changes often; go and check
+
+# ---------------------------------------------------------------------------
+# Blocked
+# ---------------------------------------------------------------------------
+
+[[title]]
+appid  = 0
+name   = "VALORANT"
+status = "blocked"
+reason = "Riot Vanguard is a kernel-mode anti-cheat that loads at boot. Riot has said plainly it will not support Linux. There is no workaround and trying one gets you banned."
+
+[[title]]
+appid  = 0
+name   = "League of Legends"
+status = "blocked"
+reason = "Ran fine on Proton for years, then Riot added Vanguard in 2024 and it stopped. Same kernel driver as VALORANT, same answer."
+
+[[title]]
+appid  = 0
+name   = "Fortnite"
+status = "blocked"
+reason = "Epic owns Easy Anti-Cheat and ships the Proton-compatible version to other studios, but has chosen not to enable it for Fortnite. This is a policy decision, not a technical limit."
+
+[[title]]
+appid  = 1085660
+name   = "Destiny 2"
+status = "blocked"
+reason = "Bungie bans accounts detected running the game on Linux or in a VM. Do not try it, even though the game itself would run."
+
+[[title]]
+appid  = 359550
+name   = "Tom Clancy's Rainbow Six Siege"
+status = "blocked"
+reason = "BattlEye is not enabled for Proton by Ubisoft. The game installs and the launcher runs; matchmaking kicks you."
+
+[[title]]
+appid  = 578080
+name   = "PUBG: BATTLEGROUNDS"
+status = "blocked"
+reason = "BattlEye Proton support has not been enabled by Krafton. Reported as blocked consistently since Proton existed."
+
+[[title]]
+appid  = 1172470
+name   = "Apex Legends"
+status = "blocked"
+reason = "EAC was enabled for Linux until late 2024, when Respawn disabled it citing cheating on the platform. A cautionary example: support that exists today can be revoked."
+
+[[title]]
+appid  = 1938090
+name   = "Call of Duty (HQ, Modern Warfare, Warzone, Black Ops)"
+status = "blocked"
+reason = "RICOCHET is a kernel-level driver on Windows. Activision has never supported Linux and playing through a VM is bannable."
+
+[[title]]
+appid  = 1517290
+name   = "Battlefield 2042"
+status = "blocked"
+reason = "EA's javelin anti-cheat runs in kernel mode and refuses Proton. The same applies to Battlefield 6 and the recent EA Sports titles."
+
+[[title]]
+appid  = 0
+name   = "Battlefield 6"
+status = "blocked"
+reason = "Ships with EA's kernel anti-cheat and Secure Boot requirements. No Linux path; DICE has not signalled one."
+
+[[title]]
+appid  = 0
+name   = "EA Sports FC"
+status = "blocked"
+reason = "EA anti-cheat blocks Proton for the online modes, which is essentially the whole game."
+
+[[title]]
+appid  = 0
+name   = "Roblox"
+status = "blocked"
+reason = "Roblox's Hyperion anti-cheat blocks the community Linux wrappers, and Roblox has actively broken them when they appeared. Treat it as unavailable."
+
+[[title]]
+appid  = 252950
+name   = "Rocket League"
+status = "blocked"
+reason = "There used to be a native Linux build. Psyonix removed it when the game moved to the Epic Games Store, and the Epic version's anti-cheat is not Proton-enabled. One of the more painful losses."
+
+[[title]]
+appid  = 0
+name   = "Escape from Tarkov"
+status = "blocked"
+reason = "BattlEye is not enabled for Linux and Battlestate Games has shown no interest. Running it anyway risks a hardware ban."
+
+[[title]]
+appid  = 0
+name   = "Delta Force"
+status = "blocked"
+reason = "Uses a kernel-mode anti-cheat that does not load under Proton. Blocked since launch."
+
+[[title]]
+appid  = 1599340
+name   = "Lost Ark"
+status = "blocked"
+reason = "EAC is present but Proton support was never enabled by Smilegate. Launches to an anti-cheat error."
+
+[[title]]
+appid  = 1063730
+name   = "New World: Aeternum"
+status = "blocked"
+reason = "Amazon has not enabled EAC for Linux. The game runs otherwise, which makes it more frustrating than most."
+
+[[title]]
+appid  = 582660
+name   = "Black Desert Online"
+status = "blocked"
+reason = "Kernel-level anti-cheat with no Linux support, and Pearl Abyss bans for attempts to bypass it."
+
+[[title]]
+appid  = 0
+name   = "Fall Guys"
+status = "blocked"
+reason = "Worked on Steam until it moved to the Epic Games Store and switched to EAC without Proton support enabled."
+
+[[title]]
+appid  = 0
+name   = "Genshin Impact"
+status = "blocked"
+reason = "The mihoyo anti-cheat runs in kernel mode and the terms of service forbid the community launchers people use to run it. It may work; you may also lose the account."
+
+# ---------------------------------------------------------------------------
+# Partly broken
+# ---------------------------------------------------------------------------
+
+[[title]]
+appid  = 271590
+name   = "Grand Theft Auto V"
+status = "broken"
+reason = "Story mode runs well under Proton. GTA Online enabled BattlEye in a configuration Rockstar has not turned on for Linux, so the online half of the game is unavailable."
+
+[[title]]
+appid  = 1240440
+name   = "Halo Infinite"
+status = "broken"
+reason = "The campaign runs under Proton. Multiplayer is gated behind anti-cheat that is not enabled for Linux. The older Master Chief Collection works fully, including online."
+
+[[title]]
+appid  = 0
+name   = "Minecraft: Bedrock Edition"
+status = "broken"
+reason = "No Linux build and no anti-cheat issue, just an absent port. Java Edition is native and covers most of what people want, but Bedrock realms and cross-play with consoles do not transfer."
+
+# ---------------------------------------------------------------------------
+# Contested or changes often
+# ---------------------------------------------------------------------------
+
+[[title]]
+appid  = 381210
+name   = "Dead by Daylight"
+status = "unknown"
+reason = "EAC status here has flipped more than once across updates and reports disagree by season. Check ProtonDB before you rely on it."
+
+[[title]]
+appid  = 0
+name   = "Marvel Rivals"
+status = "unknown"
+reason = "Reports vary by patch and by season; the anti-cheat configuration has changed since launch. Check ProtonDB and areweanticheatyet.com for the current state."
+
+[[title]]
+appid  = 0
+name   = "The First Descendant"
+status = "unknown"
+reason = "Uses EAC and Nexon's Linux position has not been consistent. Verify before committing."
+
+[[title]]
+appid  = 0
+name   = "Star Citizen"
+status = "unknown"
+reason = "No anti-cheat block, and the community Lutris and LUG helper scripts get it running for many people, but it is officially unsupported and breaks with patches. Fine as a hobby, not as a guarantee."
+
+# ---------------------------------------------------------------------------
+# Works
+# ---------------------------------------------------------------------------
+
+[[title]]
+appid  = 730
+name   = "Counter-Strike 2"
+status = "works"
+reason = "Native Linux build from Valve, and VAC works normally. Performance is close to Windows; some competitive players prefer it for the lower input latency."
+
+[[title]]
+appid  = 570
+name   = "Dota 2"
+status = "works"
+reason = "Native Linux build, Vulkan renderer, fully supported by Valve."
+
+[[title]]
+appid  = 440
+name   = "Team Fortress 2"
+status = "works"
+reason = "Native Linux build. Has run here since 2013."
+
+[[title]]
+appid  = 252490
+name   = "Rust"
+status = "works"
+reason = "Facepunch enabled EAC for Linux and keeps it working. One of the good examples: a big anti-cheat multiplayer game that simply plays."
+
+[[title]]
+appid  = 236390
+name   = "War Thunder"
+status = "works"
+reason = "Gaijin ships a native Linux client with full online play. Install it from Steam or the official launcher."
+
+[[title]]
+appid  = 2073850
+name   = "THE FINALS"
+status = "works"
+reason = "Embark enabled EAC's Proton support at launch and has kept it on. Runs well out of the box."
+
+[[title]]
+appid  = 1245620
+name   = "ELDEN RING"
+status = "works"
+reason = "EAC is enabled for Proton, so online co-op and invasions work. Both this and Nightreign are commonly played on Steam Deck."
+
+[[title]]
+appid  = 553850
+name   = "HELLDIVERS 2"
+status = "works"
+reason = "nProtect GameGuard is enabled for Proton and Arrowhead has kept Linux working. Steam Deck Verified."
+
+[[title]]
+appid  = 1086940
+name   = "Baldur's Gate 3"
+status = "works"
+reason = "Runs excellently under Proton with multiplayer intact, and Larian tests on Steam Deck. Vulkan mode is usually the better choice."
+
+[[title]]
+appid  = 548430
+name   = "Deep Rock Galactic"
+status = "works"
+reason = "EAC enabled for Proton, full online play. Rock and stone."
+
+[[title]]
+appid  = 221100
+name   = "DayZ"
+status = "works"
+reason = "Bohemia enabled BattlEye's Proton support. Official servers accept Linux clients."
+
+[[title]]
+appid  = 346110
+name   = "ARK: Survival Evolved"
+status = "works"
+reason = "BattlEye is Proton-enabled and official servers work. Survival Ascended is generally reported working too, though it is far heavier."
+
+[[title]]
+appid  = 1172620
+name   = "Sea of Thieves"
+status = "works"
+reason = "EAC enabled for Proton, and it is Steam Deck Verified. Buy the Steam version rather than the Microsoft Store one."
+
+[[title]]
+appid  = 976730
+name   = "Halo: The Master Chief Collection"
+status = "works"
+reason = "EAC enabled for Linux, including online multiplayer. The Steam version specifically."
+
+[[title]]
+appid  = 393380
+name   = "Squad"
+status = "works"
+reason = "EAC Proton support is enabled and servers accept Linux clients."
+
+[[title]]
+appid  = 1604030
+name   = "V Rising"
+status = "works"
+reason = "EAC enabled for Proton, official servers included."
+
+[[title]]
+appid  = 739630
+name   = "Phasmophobia"
+status = "works"
+reason = "Runs under Proton with working voice recognition once you set the microphone permissions. Widely played on Steam Deck."
+
+[[title]]
+appid  = 892970
+name   = "Valheim"
+status = "works"
+reason = "Native Linux build, and dedicated servers run on Linux too."
+
+[[title]]
+appid  = 1623730
+name   = "Palworld"
+status = "works"
+reason = "Runs well under Proton, and the dedicated server has a native Linux build."
+
+[[title]]
+appid  = 230410
+name   = "Warframe"
+status = "works"
+reason = "Digital Extremes supports Proton officially and lists it as a supported configuration."
+
+[[title]]
+appid  = 238960
+name   = "Path of Exile"
+status = "works"
+reason = "Runs under Proton with the Vulkan renderer, which is what most Linux players use. Path of Exile 2 is also widely reported working."
+
+[[title]]
+appid  = 1091500
+name   = "Cyberpunk 2077"
+status = "works"
+reason = "Excellent Proton support including ray tracing on supported GPUs. CD Projekt tests against Steam Deck."
+
+[[title]]
+appid  = 292030
+name   = "The Witcher 3: Wild Hunt"
+status = "works"
+reason = "Runs under Proton with no configuration needed. Steam Deck Verified."
+
+[[title]]
+appid  = 275850
+name   = "No Man's Sky"
+status = "works"
+reason = "Hello Games maintains Proton and Steam Deck compatibility actively. Online play included."
+
+[[title]]
+appid  = 105600
+name   = "Terraria"
+status = "works"
+reason = "Native Linux build, multiplayer included."
+
+[[title]]
+appid  = 413150
+name   = "Stardew Valley"
+status = "works"
+reason = "Native Linux build, and SMAPI mods work the same way they do on Windows."
+
+[[title]]
+appid  = 427520
+name   = "Factorio"
+status = "works"
+reason = "Native Linux build maintained by the developers, headless server included."
+
+[[title]]
+appid  = 1145360
+name   = "Hades"
+status = "works"
+reason = "Native Linux build. Hades II runs well under Proton."
+
+[[title]]
+appid  = 39210
+name   = "FINAL FANTASY XIV Online"
+status = "works"
+reason = "Runs under Proton, and XIVLauncher has a maintained Linux version that handles the launcher and plugins."
+
+[[title]]
+appid  = 0
+name   = "Minecraft: Java Edition"
+status = "works"
+reason = "Java, so it is genuinely cross-platform. The official launcher, Prism Launcher and modpacks all work; performance is often better than on Windows."
+
+[[title]]
+appid  = 0
+name   = "Overwatch 2"
+status = "works"
+reason = "Plays through Battle.net installed with Lutris or Bottles, or via the Steam release with Proton. No kernel anti-cheat."
+
+[[title]]
+appid  = 0
+name   = "World of Warcraft"
+status = "works"
+reason = "Long-standing Proton success story through Battle.net under Lutris. Addons and the DirectX 12 renderer both work."
+
+[[title]]
+appid  = 0
+name   = "Diablo IV"
+status = "works"
+reason = "Runs through Battle.net under Lutris or Bottles, and via the Steam release with Proton. Widely reported as smooth."

@@ -1,0 +1,2229 @@
+version = 1
+
+# hop2arch mapping database.
+#
+# One [[app]] per real application. Package names were chosen conservatively:
+# if a package is not certainly in the Arch official repos (core/extra/multilib)
+# it is listed under aur/flatpak instead, or the entry carries a lower
+# confidence. Arch merged the old community repo into extra in 2023, so any
+# "community/foo" you remember is just "foo" now.
+#
+# Repos change. When an entry is wrong, fixing it is a two-line pull request.
+
+# ---------------------------------------------------------------------------
+# Browsers
+# ---------------------------------------------------------------------------
+
+[[app]]
+id       = "firefox"
+name     = "Mozilla Firefox"
+strategy = "native"
+tags     = ["browser"]
+match    = ["mozilla firefox", "firefox"]
+winget   = ["Mozilla.Firefox"]
+exe      = ["firefox.exe"]
+pacman   = ["firefox"]
+flatpak  = ["org.mozilla.firefox"]
+carry    = ["AppData/Roaming/Mozilla/Firefox/Profiles"]
+notes    = "The same browser, same version numbers. Sign into Firefox Sync before you wipe Windows, or copy the profile folder into ~/.mozilla/firefox and pick it with firefox -P."
+confidence = "high"
+
+[[app]]
+id       = "google-chrome"
+name     = "Google Chrome"
+strategy = "native"
+tags     = ["browser"]
+match    = ["google chrome"]
+winget   = ["Google.Chrome"]
+exe      = ["chrome.exe"]
+aur      = ["google-chrome"]
+pacman   = ["chromium"]
+flatpak  = ["com.google.Chrome"]
+carry    = ["AppData/Local/Google/Chrome/User Data"]
+notes    = "Chrome itself is in the AUR and works normally. If you would rather stay in the official repos, chromium is the same browser without Google branding and imports the same profile."
+confidence = "high"
+
+[[app]]
+id       = "microsoft-edge"
+name     = "Microsoft Edge"
+strategy = "native"
+tags     = ["browser"]
+match    = ["microsoft edge"]
+winget   = ["Microsoft.Edge"]
+exe      = ["msedge.exe"]
+aur      = ["microsoft-edge-stable-bin"]
+carry    = ["AppData/Local/Microsoft/Edge/User Data"]
+notes    = "Microsoft ships a real Linux build and it syncs with your Microsoft account. It is AUR-only, so it updates when you rebuild it rather than silently in the background."
+confidence = "medium"
+
+[[app]]
+id       = "brave"
+name     = "Brave Browser"
+strategy = "native"
+tags     = ["browser"]
+match    = ["brave"]
+winget   = ["Brave.Brave"]
+exe      = ["brave.exe"]
+aur      = ["brave-bin"]
+flatpak  = ["com.brave.Browser"]
+carry    = ["AppData/Local/BraveSoftware/Brave-Browser/User Data"]
+notes    = "brave-bin is the official upstream build repackaged, so it behaves exactly as it does on Windows. Brave Sync carries bookmarks and passwords across."
+confidence = "high"
+
+[[app]]
+id       = "vivaldi"
+name     = "Vivaldi"
+strategy = "native"
+tags     = ["browser"]
+match    = ["vivaldi"]
+winget   = ["VivaldiTechnologies.Vivaldi"]
+exe      = ["vivaldi.exe"]
+pacman   = ["vivaldi", "vivaldi-ffmpeg-codecs"]
+flatpak  = ["com.vivaldi.Vivaldi"]
+carry    = ["AppData/Local/Vivaldi/User Data"]
+notes    = "In the official repos. Install vivaldi-ffmpeg-codecs alongside it or some streaming video will not play."
+confidence = "high"
+
+[[app]]
+id       = "opera"
+name     = "Opera / Opera GX"
+strategy = "native"
+tags     = ["browser"]
+match    = ["opera", "opera gx"]
+winget   = ["Opera.Opera", "Opera.OperaGX"]
+exe      = ["opera.exe", "operagx.exe"]
+pacman   = ["opera", "opera-ffmpeg-codecs"]
+flatpak  = ["com.opera.Opera"]
+carry    = ["AppData/Roaming/Opera Software/Opera Stable"]
+notes    = "Plain Opera has a Linux build. Opera GX does not and there is no sign of one, so GX users land on regular Opera or Vivaldi, which has similar tab and theming controls."
+confidence = "medium"
+
+[[app]]
+id       = "tor-browser"
+name     = "Tor Browser"
+strategy = "native"
+tags     = ["browser", "privacy"]
+match    = ["tor browser"]
+winget   = ["TorProject.TorBrowser"]
+pacman   = ["torbrowser-launcher"]
+flatpak  = ["org.torproject.torbrowser-launcher"]
+notes    = "torbrowser-launcher downloads and signature-checks the official bundle for you. Do not carry the old profile over; a fresh one is the point."
+confidence = "high"
+
+[[app]]
+id       = "yandex-browser"
+name     = "Yandex Browser"
+strategy = "native"
+tags     = ["browser"]
+match    = ["yandex"]
+winget   = ["Yandex.Browser"]
+aur      = ["yandex-browser-beta"]
+notes    = "Only a beta channel build is packaged in the AUR and it lags upstream. Any Chromium-based browser will import the same profile if you would rather not rely on it."
+confidence = "low"
+
+# ---------------------------------------------------------------------------
+# Chat and conferencing
+# ---------------------------------------------------------------------------
+
+[[app]]
+id       = "discord"
+name     = "Discord"
+strategy = "native"
+tags     = ["chat"]
+match    = ["discord"]
+winget   = ["Discord.Discord"]
+exe      = ["discord.exe"]
+pacman   = ["discord"]
+flatpak  = ["com.discordapp.Discord"]
+notes    = "In the official repos. Screen sharing with audio needs Wayland plus PipeWire, which is the default on a current install, but it is the one feature worth testing early."
+confidence = "high"
+
+[[app]]
+id       = "telegram"
+name     = "Telegram Desktop"
+strategy = "native"
+tags     = ["chat"]
+match    = ["telegram"]
+winget   = ["Telegram.TelegramDesktop"]
+exe      = ["telegram.exe"]
+pacman   = ["telegram-desktop"]
+flatpak  = ["org.telegram.desktop"]
+carry    = ["AppData/Roaming/Telegram Desktop/tdata"]
+notes    = "Official client, in the official repos. Your chats live on the server, so signing in again is enough; copying tdata only saves you a login code."
+confidence = "high"
+
+[[app]]
+id       = "whatsapp"
+name     = "WhatsApp"
+strategy = "web"
+tags     = ["chat"]
+match    = ["whatsapp"]
+winget   = ["WhatsApp.WhatsApp"]
+aur      = ["whatsapp-for-linux"]
+flatpak  = ["com.rtosta.zapzap"]
+notes    = "Meta ships no Linux client. web.whatsapp.com works fully, and ZapZap or whatsapp-for-linux are community wrappers around that same page if you want a dock icon."
+confidence = "high"
+
+[[app]]
+id       = "slack"
+name     = "Slack"
+strategy = "native"
+tags     = ["chat", "work"]
+match    = ["slack"]
+winget   = ["SlackTechnologies.Slack"]
+exe      = ["slack.exe"]
+aur      = ["slack-desktop"]
+flatpak  = ["com.slack.Slack"]
+notes    = "Official Linux client, same features. The flatpak is the easier of the two to keep updated."
+confidence = "high"
+
+[[app]]
+id       = "zoom"
+name     = "Zoom"
+strategy = "native"
+tags     = ["chat", "work"]
+match    = ["zoom"]
+winget   = ["Zoom.Zoom"]
+exe      = ["zoom.exe"]
+aur      = ["zoom"]
+flatpak  = ["us.zoom.Zoom"]
+notes    = "Officially supported on Linux, including screen sharing and virtual backgrounds. Under Wayland it will ask for a screen-share permission the first time."
+confidence = "high"
+
+[[app]]
+id       = "microsoft-teams"
+name     = "Microsoft Teams"
+strategy = "web"
+tags     = ["chat", "work"]
+match    = ["microsoft teams", "teams machine-wide installer"]
+winget   = ["Microsoft.Teams"]
+exe      = ["teams.exe"]
+aur      = ["teams-for-linux"]
+flatpak  = ["com.github.IsmaelMartinez.teams_for_linux"]
+notes    = "Microsoft retired the Linux desktop client and points everyone at teams.microsoft.com, which supports calls and screen sharing in Chromium-based browsers. teams-for-linux is a community wrapper around that page and is what most people end up using."
+confidence = "high"
+
+[[app]]
+id       = "skype"
+name     = "Skype"
+strategy = "none"
+tags     = ["chat"]
+match    = ["skype"]
+winget   = ["Microsoft.Skype"]
+exe      = ["skype.exe"]
+notes    = "Microsoft retired Skype in May 2025 and moved consumer accounts to Teams, so this is not a Linux problem. If you still have contacts there, they are reachable through Teams free."
+confidence = "high"
+
+[[app]]
+id       = "signal"
+name     = "Signal"
+strategy = "native"
+tags     = ["chat", "privacy"]
+match    = ["signal"]
+winget   = ["OpenWhisperSystems.Signal"]
+exe      = ["signal.exe"]
+pacman   = ["signal-desktop"]
+flatpak  = ["org.signal.Signal"]
+notes    = "In the official repos. Desktop installs are linked to your phone, so link the new one from your phone rather than copying the old data folder."
+confidence = "high"
+
+[[app]]
+id       = "element"
+name     = "Element (Matrix)"
+strategy = "native"
+tags     = ["chat"]
+match    = ["element"]
+winget   = ["Element.Element"]
+pacman   = ["element-desktop"]
+flatpak  = ["im.riot.Riot"]
+notes    = "In the official repos. Export your encryption keys from the Windows client before you wipe it, otherwise old encrypted messages will not decrypt on the new device."
+confidence = "high"
+
+[[app]]
+id       = "viber"
+name     = "Viber"
+strategy = "native"
+tags     = ["chat"]
+match    = ["viber"]
+winget   = ["Rakuten.Viber"]
+aur      = ["viber"]
+notes    = "Rakuten publishes a Linux build, packaged in the AUR. It is updated infrequently and video calls are the weakest part; the phone app remains the reliable one."
+confidence = "low"
+
+[[app]]
+id       = "teamspeak"
+name     = "TeamSpeak"
+strategy = "native"
+tags     = ["chat", "gaming"]
+match    = ["teamspeak"]
+winget   = ["TeamSpeakSystems.TeamSpeakClient"]
+pacman   = ["teamspeak3"]
+flatpak  = ["com.teamspeak.TeamSpeak"]
+notes    = "The TeamSpeak 3 client is packaged and works, including overlay-free voice in games. Copy your bookmarks and identity from AppData/Roaming/TS3Client so you keep server permissions."
+confidence = "medium"
+
+[[app]]
+id       = "mumble"
+name     = "Mumble"
+strategy = "native"
+tags     = ["chat", "gaming"]
+match    = ["mumble"]
+winget   = ["Mumble.Mumble"]
+pacman   = ["mumble"]
+flatpak  = ["info.mumble.Mumble"]
+notes    = "Same application, in the official repos. Export your certificate from the Windows client first or you will look like a new user to every server."
+confidence = "high"
+
+# ---------------------------------------------------------------------------
+# Development
+# ---------------------------------------------------------------------------
+
+[[app]]
+id       = "vscode"
+name     = "Visual Studio Code"
+strategy = "native"
+tags     = ["dev", "editor"]
+match    = ["visual studio code"]
+winget   = ["Microsoft.VisualStudioCode"]
+exe      = ["code.exe"]
+pacman   = ["code"]
+aur      = ["visual-studio-code-bin"]
+flatpak  = ["com.visualstudio.code"]
+carry    = ["AppData/Roaming/Code/User"]
+notes    = "The repo package code is the MIT-licensed OSS build; visual-studio-code-bin in the AUR is the Microsoft-branded one with the marketplace and Remote/Copilot extensions. Pick the AUR build if you rely on those. Settings Sync moves everything either way."
+confidence = "high"
+
+[[app]]
+id       = "vscodium"
+name     = "VSCodium"
+strategy = "native"
+tags     = ["dev", "editor"]
+match    = ["vscodium"]
+winget   = ["VSCodium.VSCodium"]
+exe      = ["codium.exe"]
+aur      = ["vscodium-bin"]
+flatpak  = ["com.vscodium.codium"]
+carry    = ["AppData/Roaming/VSCodium/User"]
+notes    = "Same telemetry-free build you are already running, just packaged for Arch."
+confidence = "high"
+
+[[app]]
+id       = "visual-studio"
+name     = "Visual Studio (2019/2022)"
+strategy = "none"
+tags     = ["dev", "ide", "blocker"]
+match    = ["visual studio 2019", "visual studio 2022", "visual studio community", "visual studio professional", "visual studio enterprise"]
+winget   = ["Microsoft.VisualStudio.2022.Community"]
+notes    = "Visual Studio proper does not exist on Linux and Wine does not run it. For C# and .NET, JetBrains Rider is the closest full IDE and the .NET SDK itself is packaged; for C++ workloads people move to CLion, Qt Creator or VS Code with clangd. If you need the real thing, keep a Windows VM."
+confidence = "high"
+
+[[app]]
+id       = "intellij-idea"
+name     = "IntelliJ IDEA"
+strategy = "native"
+tags     = ["dev", "ide", "jetbrains"]
+match    = ["intellij idea"]
+winget   = ["JetBrains.IntelliJIDEA.Community", "JetBrains.IntelliJIDEA.Ultimate"]
+pacman   = ["intellij-idea-community-edition"]
+aur      = ["intellij-idea-ultimate-edition"]
+flatpak  = ["com.jetbrains.IntelliJ-IDEA-Community"]
+carry    = ["AppData/Roaming/JetBrains"]
+notes    = "Community edition is in the official repos; Ultimate is in the AUR or via JetBrains Toolbox. Settings Sync through your JetBrains account carries keymaps and plugins across."
+confidence = "high"
+
+[[app]]
+id       = "pycharm"
+name     = "PyCharm"
+strategy = "native"
+tags     = ["dev", "ide", "jetbrains"]
+match    = ["pycharm"]
+winget   = ["JetBrains.PyCharm.Community", "JetBrains.PyCharm.Professional"]
+pacman   = ["pycharm-community-edition"]
+aur      = ["pycharm-professional"]
+flatpak  = ["com.jetbrains.PyCharm-Community"]
+carry    = ["AppData/Roaming/JetBrains"]
+notes    = "Community edition is packaged in the official repos, Professional comes from the AUR or Toolbox. Interpreters are easier here than on Windows: python and python-virtualenv are one pacman command away."
+confidence = "high"
+
+[[app]]
+id       = "webstorm"
+name     = "WebStorm"
+strategy = "native"
+tags     = ["dev", "ide", "jetbrains"]
+match    = ["webstorm"]
+winget   = ["JetBrains.WebStorm"]
+aur      = ["webstorm"]
+carry    = ["AppData/Roaming/JetBrains"]
+notes    = "Not in the official repos, so install it through JetBrains Toolbox or the AUR package. Toolbox is the lower-maintenance option because it handles its own updates."
+confidence = "medium"
+
+[[app]]
+id       = "rider"
+name     = "JetBrains Rider"
+strategy = "native"
+tags     = ["dev", "ide", "jetbrains", "dotnet"]
+match    = ["jetbrains rider", "rider"]
+winget   = ["JetBrains.Rider"]
+aur      = ["rider"]
+carry    = ["AppData/Roaming/JetBrains"]
+notes    = "Rider is the practical replacement for Visual Studio on Linux and it is free for non-commercial use. It builds and debugs .NET fine; only Windows-only workloads like WinForms designers and MSIX packaging are missing."
+confidence = "medium"
+
+[[app]]
+id       = "clion"
+name     = "CLion"
+strategy = "native"
+tags     = ["dev", "ide", "jetbrains"]
+match    = ["clion"]
+winget   = ["JetBrains.CLion"]
+aur      = ["clion"]
+carry    = ["AppData/Roaming/JetBrains"]
+notes    = "Install through JetBrains Toolbox or the AUR. CMake, gcc and gdb come from the base-devel group, so toolchain setup is shorter than it was on Windows."
+confidence = "medium"
+
+[[app]]
+id       = "datagrip"
+name     = "DataGrip"
+strategy = "native"
+tags     = ["dev", "database", "jetbrains"]
+match    = ["datagrip"]
+winget   = ["JetBrains.DataGrip"]
+aur      = ["datagrip"]
+carry    = ["AppData/Roaming/JetBrains"]
+notes    = "AUR or JetBrains Toolbox. If you would rather not pay, DBeaver in the official repos covers most of the same ground."
+confidence = "medium"
+
+[[app]]
+id       = "jetbrains-toolbox"
+name     = "JetBrains Toolbox"
+strategy = "native"
+tags     = ["dev", "jetbrains"]
+match    = ["jetbrains toolbox"]
+winget   = ["JetBrains.Toolbox"]
+aur      = ["jetbrains-toolbox"]
+notes    = "Works the same as on Windows and is the simplest way to run the paid IDEs, since it updates them outside of pacman."
+confidence = "high"
+
+[[app]]
+id       = "sublime-text"
+name     = "Sublime Text"
+strategy = "native"
+tags     = ["dev", "editor"]
+match    = ["sublime text"]
+winget   = ["SublimeHQ.SublimeText.4"]
+exe      = ["sublime_text.exe"]
+aur      = ["sublime-text-4"]
+carry    = ["AppData/Roaming/Sublime Text/Packages/User"]
+notes    = "Official Linux build, packaged in the AUR. Copy the Packages/User folder into ~/.config/sublime-text/Packages/User and your keymaps, snippets and Package Control list come with you."
+confidence = "high"
+
+[[app]]
+id       = "notepad-plus-plus"
+name     = "Notepad++"
+strategy = "alternative"
+tags     = ["dev", "editor"]
+match    = ["notepad++"]
+winget   = ["Notepad++.Notepad++"]
+exe      = ["notepad++.exe"]
+replacement = "Kate"
+pacman   = ["kate", "featherpad", "gnome-text-editor"]
+aur      = ["notepadqq"]
+notes    = "There is no Linux Notepad++. Kate is the usual landing spot: tabs, sessions, column select, macros and a built-in terminal. Notepadqq deliberately imitates the Notepad++ layout if muscle memory matters more than polish."
+confidence = "high"
+
+[[app]]
+id       = "neovim"
+name     = "Neovim"
+strategy = "native"
+tags     = ["dev", "editor"]
+match    = ["neovim"]
+winget   = ["Neovim.Neovim"]
+exe      = ["nvim.exe"]
+pacman   = ["neovim"]
+carry    = ["AppData/Local/nvim"]
+notes    = "Copy AppData/Local/nvim to ~/.config/nvim and your config starts working immediately. Plugins that shelled out to PowerShell are the only thing you will need to touch."
+confidence = "high"
+
+[[app]]
+id       = "git"
+name     = "Git for Windows"
+strategy = "native"
+tags     = ["dev", "vcs"]
+match    = ["git", "git for windows"]
+winget   = ["Git.Git"]
+exe      = ["git.exe"]
+pacman   = ["git", "git-lfs"]
+carry    = [".gitconfig", ".ssh"]
+notes    = "Git is the same tool without the bundled MSYS layer, and the shell you were using Git Bash to get is now just your terminal. Copy .gitconfig and .ssh across, then chmod 600 the keys or ssh will refuse them."
+confidence = "high"
+
+[[app]]
+id       = "github-desktop"
+name     = "GitHub Desktop"
+strategy = "native"
+tags     = ["dev", "vcs"]
+match    = ["github desktop"]
+winget   = ["GitHub.GitHubDesktop"]
+aur      = ["github-desktop-bin"]
+flatpak  = ["io.github.shiftey.Desktop"]
+notes    = "GitHub does not build for Linux, but the community fork in the AUR and on Flathub is the same app and signs into the same account."
+confidence = "medium"
+
+[[app]]
+id       = "gitkraken"
+name     = "GitKraken"
+strategy = "native"
+tags     = ["dev", "vcs"]
+match    = ["gitkraken"]
+winget   = ["Axosoft.GitKraken"]
+aur      = ["gitkraken"]
+flatpak  = ["com.axosoft.GitKraken"]
+notes    = "Officially supported on Linux with the same licence you already have."
+confidence = "high"
+
+[[app]]
+id       = "sourcetree"
+name     = "Sourcetree"
+strategy = "alternative"
+tags     = ["dev", "vcs"]
+match    = ["sourcetree"]
+winget   = ["Atlassian.Sourcetree"]
+replacement = "GitKraken or git-cola"
+pacman   = ["git-cola", "gitg", "lazygit"]
+aur      = ["gitkraken"]
+notes    = "Atlassian never shipped Sourcetree for Linux. GitKraken is the closest visual equivalent; git-cola and gitg are lighter and free, and lazygit is the terminal option people tend to settle on."
+confidence = "high"
+
+[[app]]
+id       = "docker-desktop"
+name     = "Docker Desktop"
+strategy = "native"
+tags     = ["dev", "containers"]
+match    = ["docker desktop"]
+winget   = ["Docker.DockerDesktop"]
+exe      = ["docker desktop.exe"]
+pacman   = ["docker", "docker-compose", "docker-buildx"]
+aur      = ["docker-desktop"]
+notes    = "On Linux, Docker runs directly on your kernel with no VM in between, so it is faster and lighter than what you had. Install docker, enable docker.service, add yourself to the docker group. The Desktop GUI exists in the AUR but very few people bother."
+confidence = "high"
+
+[[app]]
+id       = "wsl"
+name     = "Windows Subsystem for Linux"
+strategy = "builtin"
+tags     = ["dev"]
+match    = ["windows subsystem for linux", "ubuntu on windows", "wsl"]
+notes    = "This is what you were using WSL to reach. Your distro home directory can be copied straight out of the WSL disk before you wipe Windows if there is anything in it."
+confidence = "high"
+
+[[app]]
+id       = "postman"
+name     = "Postman"
+strategy = "native"
+tags     = ["dev", "api"]
+match    = ["postman"]
+winget   = ["Postman.Postman"]
+aur      = ["postman-bin"]
+flatpak  = ["com.getpostman.Postman"]
+notes    = "Official Linux build. Collections sync with your Postman account, so sign in rather than exporting by hand."
+confidence = "high"
+
+[[app]]
+id       = "insomnia"
+name     = "Insomnia"
+strategy = "native"
+tags     = ["dev", "api"]
+match    = ["insomnia"]
+winget   = ["Insomnia.Insomnia"]
+aur      = ["insomnia-bin"]
+flatpak  = ["rest.insomnia.Insomnia"]
+carry    = ["AppData/Roaming/Insomnia"]
+notes    = "Officially supported on Linux. Export your workspace to a file first if you do not use Insomnia sync."
+confidence = "medium"
+
+[[app]]
+id       = "dbeaver"
+name     = "DBeaver"
+strategy = "native"
+tags     = ["dev", "database"]
+match    = ["dbeaver"]
+winget   = ["dbeaver.dbeaver"]
+pacman   = ["dbeaver"]
+flatpak  = ["io.dbeaver.DBeaverCommunity"]
+carry    = ["AppData/Roaming/DBeaverData"]
+notes    = "In the official repos. Copy DBeaverData across and your saved connections come with you, though you will be asked for passwords again."
+confidence = "high"
+
+[[app]]
+id       = "heidisql"
+name     = "HeidiSQL"
+strategy = "alternative"
+tags     = ["dev", "database"]
+match    = ["heidisql"]
+winget   = ["HeidiSQL.HeidiSQL"]
+replacement = "DBeaver"
+pacman   = ["dbeaver", "mysql-workbench"]
+carry    = ["AppData/Roaming/HeidiSQL"]
+notes    = "HeidiSQL is Windows-only, though it is one of the few apps that genuinely runs well under Wine if you are attached to it. DBeaver covers the same MySQL and MariaDB work natively."
+confidence = "high"
+
+[[app]]
+id       = "mysql-workbench"
+name     = "MySQL Workbench"
+strategy = "native"
+tags     = ["dev", "database"]
+match    = ["mysql workbench"]
+winget   = ["Oracle.MySQLWorkbench"]
+pacman   = ["mysql-workbench"]
+carry    = ["AppData/Roaming/MySQL/Workbench"]
+notes    = "Packaged for Arch. Oracle updates it slowly on every platform, so expect the same version lag you had on Windows."
+confidence = "medium"
+
+[[app]]
+id       = "pgadmin"
+name     = "pgAdmin 4"
+strategy = "native"
+tags     = ["dev", "database"]
+match    = ["pgadmin"]
+winget   = ["PostgreSQL.pgAdmin"]
+pacman   = ["pgadmin4"]
+flatpak  = ["org.pgadmin.pgadmin4"]
+carry    = ["AppData/Roaming/pgadmin"]
+notes    = "Same application. It runs as a local web app in both places, so nothing about your workflow changes."
+confidence = "medium"
+
+[[app]]
+id       = "nodejs"
+name     = "Node.js"
+strategy = "native"
+tags     = ["dev", "runtime"]
+match    = ["node.js"]
+winget   = ["OpenJS.NodeJS", "OpenJS.NodeJS.LTS"]
+exe      = ["node.exe"]
+pacman   = ["nodejs", "npm"]
+notes    = "Install nodejs and npm from the repos for the current version. If you need to juggle versions per project, nvm or fnm work exactly as they do elsewhere and are also packaged."
+confidence = "high"
+
+[[app]]
+id       = "python"
+name     = "Python"
+strategy = "builtin"
+tags     = ["dev", "runtime"]
+match    = ["python 3", "python launcher"]
+winget   = ["Python.Python.3.12", "Python.Python.3.11"]
+exe      = ["python.exe"]
+pacman   = ["python", "python-pip", "python-virtualenv"]
+notes    = "Python is already installed; the system depends on it. Do not pip install into the system Python, use a virtualenv or pipx and nothing will ever break."
+confidence = "high"
+
+[[app]]
+id       = "dotnet-sdk"
+name     = ".NET SDK"
+strategy = "native"
+tags     = ["dev", "runtime", "dotnet"]
+match    = [".net sdk", "microsoft .net sdk"]
+winget   = ["Microsoft.DotNet.SDK.8", "Microsoft.DotNet.SDK.9"]
+exe      = ["dotnet.exe"]
+pacman   = ["dotnet-sdk", "dotnet-runtime", "aspnet-runtime"]
+notes    = "Microsoft supports .NET on Linux properly and it is in the official repos. Console, ASP.NET and MAUI-for-Android projects build fine; WinForms and WPF projects do not, because those are Windows-only frameworks."
+confidence = "high"
+
+[[app]]
+id       = "java-jdk"
+name     = "Java / JDK"
+strategy = "native"
+tags     = ["dev", "runtime"]
+match    = ["java", "jdk", "openjdk", "java se development kit"]
+winget   = ["Oracle.JDK.21", "EclipseAdoptium.Temurin.21.JDK"]
+exe      = ["java.exe", "javaw.exe"]
+pacman   = ["jdk-openjdk", "jre-openjdk"]
+notes    = "OpenJDK is in the official repos and several versions can sit side by side; archlinux-java switches the default. No Oracle account or licence prompt involved."
+confidence = "high"
+
+[[app]]
+id       = "golang"
+name     = "Go"
+strategy = "native"
+tags     = ["dev", "runtime"]
+match    = ["go programming language", "golang"]
+winget   = ["GoLang.Go"]
+pacman   = ["go"]
+notes    = "Same toolchain, one package. GOPATH and module cache land in ~/go by default."
+confidence = "high"
+
+[[app]]
+id       = "rust"
+name     = "Rust"
+strategy = "native"
+tags     = ["dev", "runtime"]
+match    = ["rust", "rustup"]
+winget   = ["Rustlang.Rustup"]
+pacman   = ["rustup"]
+notes    = "Install rustup rather than the rust package so you keep toolchain switching. Linking is simpler here than on Windows because there is no separate MSVC build-tools download."
+confidence = "high"
+
+[[app]]
+id       = "putty"
+name     = "PuTTY"
+strategy = "alternative"
+tags     = ["dev", "ssh"]
+match    = ["putty"]
+winget   = ["PuTTY.PuTTY"]
+exe      = ["putty.exe"]
+replacement = "OpenSSH (the ssh command)"
+pacman   = ["openssh", "putty"]
+notes    = "ssh is built into the system and is what PuTTY was standing in for; ssh user@host is the whole thing. PuTTY itself is still packaged if you want the saved-sessions window, and puttygen converts your .ppk keys to OpenSSH format."
+confidence = "high"
+
+[[app]]
+id       = "winscp"
+name     = "WinSCP"
+strategy = "alternative"
+tags     = ["dev", "ssh", "files"]
+match    = ["winscp"]
+winget   = ["WinSCP.WinSCP"]
+exe      = ["winscp.exe"]
+replacement = "FileZilla, or your file manager"
+pacman   = ["filezilla", "openssh"]
+notes    = "Dolphin, Nautilus and Thunar all browse sftp:// servers directly, which covers most of what WinSCP did. FileZilla is there for a two-pane view, and scp and rsync are built in for scripted copies."
+confidence = "high"
+
+[[app]]
+id       = "filezilla"
+name     = "FileZilla"
+strategy = "native"
+tags     = ["dev", "ftp"]
+match    = ["filezilla"]
+winget   = ["TimKosse.FileZilla.Client"]
+exe      = ["filezilla.exe"]
+pacman   = ["filezilla"]
+flatpak  = ["org.filezillaproject.Filezilla"]
+carry    = ["AppData/Roaming/FileZilla"]
+notes    = "Same client, in the official repos, and the repo build has none of the bundled adware the Windows installer is known for. Copy sitemanager.xml across to keep your servers."
+confidence = "high"
+
+[[app]]
+id       = "mobaxterm"
+name     = "MobaXterm"
+strategy = "builtin"
+tags     = ["dev", "ssh", "terminal"]
+match    = ["mobaxterm"]
+winget   = ["Mobatek.MobaXterm"]
+replacement = "your terminal, plus tmux and remmina"
+pacman   = ["openssh", "tmux", "remmina", "freerdp"]
+notes    = "MobaXterm exists to give Windows the shell, X server and tabbed SSH that Linux already has. Your terminal emulator does the tabs, tmux does the sessions, and remmina covers the RDP and VNC side."
+confidence = "high"
+
+[[app]]
+id       = "msys2"
+name     = "MSYS2 / Cygwin"
+strategy = "builtin"
+tags     = ["dev", "terminal"]
+match    = ["msys2", "cygwin"]
+winget   = ["MSYS2.MSYS2", "Cygwin.Cygwin"]
+notes    = "Both of these are POSIX layers bolted onto Windows. You are on the real thing now, so bash, coreutils, gcc and make are simply present. Nothing to install."
+confidence = "high"
+
+[[app]]
+id       = "arduino-ide"
+name     = "Arduino IDE"
+strategy = "native"
+tags     = ["dev", "hardware"]
+match    = ["arduino"]
+winget   = ["ArduinoSA.IDE.stable"]
+aur      = ["arduino-ide-bin"]
+flatpak  = ["cc.arduino.IDE2"]
+carry    = ["Documents/Arduino"]
+notes    = "Official Linux build. Add yourself to the uucp group so you can use the serial port without sudo, then copy Documents/Arduino to ~/Arduino for your sketches and libraries."
+confidence = "medium"
+
+[[app]]
+id       = "wireshark"
+name     = "Wireshark"
+strategy = "native"
+tags     = ["dev", "network"]
+match    = ["wireshark"]
+winget   = ["WiresharkFoundation.Wireshark"]
+exe      = ["wireshark.exe"]
+pacman   = ["wireshark-qt"]
+carry    = ["AppData/Roaming/Wireshark"]
+notes    = "wireshark-qt is the GUI, wireshark-cli is tshark. Add yourself to the wireshark group during install or you will not be able to capture without root."
+confidence = "high"
+
+[[app]]
+id       = "virtualbox"
+name     = "Oracle VirtualBox"
+strategy = "native"
+tags     = ["dev", "virtualisation"]
+match    = ["virtualbox"]
+winget   = ["Oracle.VirtualBox"]
+exe      = ["virtualbox.exe"]
+pacman   = ["virtualbox", "virtualbox-host-modules-arch", "virtualbox-guest-iso"]
+carry    = ["VirtualBox VMs", ".VirtualBox"]
+notes    = "Same application, and your existing .vdi and .vbox files import unchanged. Install virtualbox-host-modules-arch alongside it, or virtualbox-host-dkms if you run a custom kernel."
+confidence = "high"
+
+[[app]]
+id       = "vmware-workstation"
+name     = "VMware Workstation"
+strategy = "native"
+tags     = ["dev", "virtualisation"]
+match    = ["vmware workstation", "vmware player"]
+winget   = ["VMware.WorkstationPro"]
+aur      = ["vmware-workstation"]
+notes    = "There is a Linux build in the AUR and it opens your existing .vmx machines, but it needs kernel modules that break on kernel updates more often than most people want. QEMU with virt-manager is the low-friction alternative and is in the official repos."
+confidence = "medium"
+
+[[app]]
+id       = "android-studio"
+name     = "Android Studio"
+strategy = "native"
+tags     = ["dev", "ide", "mobile"]
+match    = ["android studio"]
+winget   = ["Google.AndroidStudio"]
+aur      = ["android-studio"]
+flatpak  = ["com.google.AndroidStudio"]
+carry    = [".android", "AppData/Roaming/Google"]
+notes    = "Fully supported on Linux, and the emulator is faster here because KVM replaces Hyper-V. Copy .android across to keep your AVDs and signing keys."
+confidence = "high"
+
+[[app]]
+id       = "unity-hub"
+name     = "Unity Hub"
+strategy = "native"
+tags     = ["dev", "gamedev"]
+match    = ["unity hub", "unity editor"]
+winget   = ["Unity.UnityHub"]
+aur      = ["unityhub"]
+notes    = "Unity supports Linux editors through the Hub. Windows and WebGL build targets still work; only building for platforms that need a Windows-only SDK is off the table."
+confidence = "medium"
+
+[[app]]
+id       = "godot"
+name     = "Godot Engine"
+strategy = "native"
+tags     = ["dev", "gamedev"]
+match    = ["godot"]
+winget   = ["GodotEngine.GodotEngine"]
+pacman   = ["godot"]
+flatpak  = ["org.godotengine.Godot"]
+notes    = "In the official repos, and Godot is developed largely on Linux, so this is the smoothest move on the list. Use godot-mono if your projects are C#."
+confidence = "high"
+
+[[app]]
+id       = "unreal-engine"
+name     = "Unreal Engine"
+strategy = "native"
+tags     = ["dev", "gamedev"]
+match    = ["unreal engine", "epic games launcher"]
+aur      = ["unreal-engine"]
+notes    = "Epic supports Linux but does not ship a launcher build, so you link your Epic account to GitHub and compile the engine from source. That is a real afternoon of work and a large disk footprint; plan for it rather than discovering it."
+confidence = "low"
+
+# ---------------------------------------------------------------------------
+# Media and creative
+# ---------------------------------------------------------------------------
+
+[[app]]
+id       = "vlc"
+name     = "VLC media player"
+strategy = "native"
+tags     = ["media", "video"]
+match    = ["vlc"]
+winget   = ["VideoLAN.VLC"]
+exe      = ["vlc.exe"]
+pacman   = ["vlc"]
+flatpak  = ["org.videolan.VLC"]
+notes    = "Identical, and it plays everything here too. No codec packs to hunt down."
+confidence = "high"
+
+[[app]]
+id       = "mpc-hc"
+name     = "MPC-HC / PotPlayer"
+strategy = "alternative"
+tags     = ["media", "video"]
+match    = ["mpc-hc", "media player classic", "potplayer"]
+winget   = ["clsid2.mpc-hc", "Daum.PotPlayer"]
+exe      = ["mpc-hc64.exe", "potplayermini64.exe"]
+replacement = "mpv"
+pacman   = ["mpv", "haruna", "vlc"]
+notes    = "Neither has a Linux version. mpv is the direct heir: tiny, keyboard driven, excellent hardware decoding and the same high-quality scalers PotPlayer users care about. Haruna is mpv with a normal window and settings dialog."
+confidence = "high"
+
+[[app]]
+id       = "foobar2000"
+name     = "foobar2000"
+strategy = "alternative"
+tags     = ["media", "audio"]
+match    = ["foobar2000"]
+winget   = ["PeterPawlowski.foobar2000"]
+exe      = ["foobar2000.exe"]
+replacement = "DeaDBeeF or Strawberry"
+pacman   = ["strawberry", "audacious"]
+aur      = ["deadbeef"]
+carry    = ["AppData/Roaming/foobar2000"]
+notes    = "DeaDBeeF is the closest in spirit: light, gapless, heavy on tagging and layout tweaking. Strawberry suits larger libraries. If your foobar setup is deeply customised, foobar2000 itself is one of the better-behaved apps under Wine."
+confidence = "high"
+
+[[app]]
+id       = "aimp"
+name     = "AIMP"
+strategy = "alternative"
+tags     = ["media", "audio"]
+match    = ["aimp"]
+winget   = ["AIMP.AIMP"]
+replacement = "Audacious"
+pacman   = ["audacious", "strawberry"]
+notes    = "Audacious has a Winamp-style skinned mode and the same lightweight feel, and it reads your existing playlists."
+confidence = "high"
+
+[[app]]
+id       = "spotify"
+name     = "Spotify"
+strategy = "native"
+tags     = ["media", "audio"]
+match    = ["spotify"]
+winget   = ["Spotify.Spotify"]
+exe      = ["spotify.exe"]
+aur      = ["spotify"]
+flatpak  = ["com.spotify.Client"]
+notes    = "Official Linux client, same account, same playlists. Local file playback and lyrics work; only the Windows-only equaliser is missing."
+confidence = "high"
+
+[[app]]
+id       = "itunes"
+name     = "iTunes / Apple Music"
+strategy = "web"
+tags     = ["media", "audio"]
+match    = ["itunes", "apple music"]
+winget   = ["Apple.iTunes"]
+exe      = ["itunes.exe"]
+pacman   = ["strawberry"]
+notes    = "Apple ships nothing for Linux. music.apple.com plays your library in a browser and is the practical answer. For syncing an iPhone, libimobiledevice handles photos and files but not music; a purchased library is easiest to keep on the phone or move to another service."
+confidence = "high"
+
+[[app]]
+id       = "audacity"
+name     = "Audacity"
+strategy = "native"
+tags     = ["media", "audio"]
+match    = ["audacity"]
+winget   = ["Audacity.Audacity"]
+exe      = ["audacity.exe"]
+pacman   = ["audacity"]
+flatpak  = ["org.audacityteam.Audacity"]
+notes    = "Same editor, in the official repos. Projects open unchanged. Tenacity is a fork some people prefer if the telemetry change bothered you."
+confidence = "high"
+
+[[app]]
+id       = "obs-studio"
+name     = "OBS Studio"
+strategy = "native"
+tags     = ["media", "streaming"]
+match    = ["obs studio", "obs"]
+winget   = ["OBSProject.OBSStudio"]
+exe      = ["obs64.exe"]
+pacman   = ["obs-studio"]
+flatpak  = ["com.obsproject.Studio"]
+carry    = ["AppData/Roaming/obs-studio"]
+notes    = "In the official repos, with NVENC and VAAPI encoding. Copy the obs-studio folder to ~/.config/obs-studio to keep your scenes; window and game capture sources will need re-picking under Wayland."
+confidence = "high"
+
+[[app]]
+id       = "handbrake"
+name     = "HandBrake"
+strategy = "native"
+tags     = ["media", "video"]
+match    = ["handbrake"]
+winget   = ["HandBrake.HandBrake"]
+pacman   = ["handbrake", "handbrake-cli"]
+flatpak  = ["fr.handbrake.ghb"]
+notes    = "Same application and the same presets, which you can export from Windows and import here."
+confidence = "high"
+
+[[app]]
+id       = "ffmpeg"
+name     = "FFmpeg"
+strategy = "native"
+tags     = ["media", "cli"]
+match    = ["ffmpeg"]
+winget   = ["Gyan.FFmpeg"]
+exe      = ["ffmpeg.exe"]
+pacman   = ["ffmpeg"]
+notes    = "One package, already on PATH, and most media apps depend on it anyway. Your existing command lines work unchanged."
+confidence = "high"
+
+[[app]]
+id       = "kdenlive"
+name     = "Kdenlive"
+strategy = "native"
+tags     = ["media", "video", "editor"]
+match    = ["kdenlive"]
+winget   = ["KDE.Kdenlive"]
+pacman   = ["kdenlive"]
+flatpak  = ["org.kde.kdenlive"]
+notes    = "Kdenlive is developed on Linux first, so this is the version the developers actually use. Projects open as-is."
+confidence = "high"
+
+[[app]]
+id       = "davinci-resolve"
+name     = "DaVinci Resolve"
+strategy = "native"
+tags     = ["media", "video", "editor"]
+match    = ["davinci resolve"]
+winget   = ["BlackmagicDesign.DaVinciResolve"]
+aur      = ["davinci-resolve", "davinci-resolve-studio"]
+notes    = "Blackmagic supports Linux officially, which makes Resolve the one professional video app that survives the move. Two caveats: the free version on Linux will not import H.264/H.265 from a phone or most cameras without transcoding first, and you need working GPU compute (ROCm or CUDA)."
+confidence = "medium"
+
+[[app]]
+id       = "adobe-premiere"
+name     = "Adobe Premiere Pro"
+strategy = "none"
+tags     = ["media", "video", "adobe", "blocker"]
+match    = ["adobe premiere"]
+winget   = ["Adobe.PremierePro"]
+notes    = "Premiere does not run on Linux and Wine does not change that. The realistic paths are DaVinci Resolve, which is professional-grade and officially supported here, or Kdenlive for lighter work. Neither opens .prproj files, so finish anything in flight before you switch."
+confidence = "high"
+
+[[app]]
+id       = "adobe-after-effects"
+name     = "Adobe After Effects"
+strategy = "none"
+tags     = ["media", "video", "adobe", "blocker"]
+match    = ["adobe after effects"]
+winget   = ["Adobe.AfterEffects"]
+notes    = "No Linux version and no working Wine path. Resolve Fusion covers node-based compositing, Blender handles motion graphics and 3D, and Natron exists for keying and tracking. If After Effects is how you earn a living, keep a Windows machine or partition."
+confidence = "high"
+
+[[app]]
+id       = "adobe-photoshop"
+name     = "Adobe Photoshop"
+strategy = "alternative"
+tags     = ["media", "image", "adobe"]
+match    = ["adobe photoshop"]
+winget   = ["Adobe.Photoshop"]
+exe      = ["photoshop.exe"]
+replacement = "Krita or GIMP"
+pacman   = ["krita", "gimp"]
+notes    = "Krita is the better fit for painting and digital art, GIMP for photo retouching and general editing, and photopea.com is a browser clone that opens .psd files when you just need to fix one file. Wine and Bottles recipes for Photoshop exist but break between versions; do not build a workflow on them."
+confidence = "high"
+
+[[app]]
+id       = "adobe-illustrator"
+name     = "Adobe Illustrator"
+strategy = "alternative"
+tags     = ["media", "image", "adobe"]
+match    = ["adobe illustrator"]
+winget   = ["Adobe.Illustrator"]
+replacement = "Inkscape"
+pacman   = ["inkscape"]
+notes    = "Inkscape is a genuinely capable vector editor and reads .ai files that were saved with PDF compatibility. Expect a week of relearning shortcuts rather than a missing feature."
+confidence = "high"
+
+[[app]]
+id       = "adobe-lightroom"
+name     = "Adobe Lightroom"
+strategy = "alternative"
+tags     = ["media", "photo", "adobe"]
+match    = ["adobe lightroom", "adobe photoshop lightroom"]
+winget   = ["Adobe.Lightroom"]
+replacement = "darktable or RawTherapee"
+pacman   = ["darktable", "rawtherapee"]
+carry    = ["Pictures/Lightroom"]
+notes    = "darktable is the closest match, with a catalogue and non-destructive edits, and it can import Lightroom keywords. Your develop settings do not transfer, so export finished JPEGs from Lightroom before you leave; the RAW files themselves are fine."
+confidence = "high"
+
+[[app]]
+id       = "adobe-acrobat"
+name     = "Adobe Acrobat Pro"
+strategy = "alternative"
+tags     = ["pdf", "adobe"]
+match    = ["adobe acrobat"]
+winget   = ["Adobe.Acrobat.Pro"]
+replacement = "Okular plus Xournal++"
+pacman   = ["okular", "xournalpp", "qpdf"]
+aur      = ["pdfarranger"]
+notes    = "Reading, annotating, signing and form filling are covered by Okular and Xournal++; PDF Arranger reorders and merges pages. True OCR and prepress work is the gap, and for that most people use the Acrobat web tools in a browser."
+confidence = "high"
+
+[[app]]
+id       = "gimp"
+name     = "GIMP"
+strategy = "native"
+tags     = ["media", "image"]
+match    = ["gimp"]
+winget   = ["GIMP.GIMP"]
+pacman   = ["gimp"]
+flatpak  = ["org.gimp.GIMP"]
+carry    = ["AppData/Roaming/GIMP"]
+notes    = "Same program. Copy the GIMP folder into ~/.config/GIMP to keep brushes, scripts and your window layout."
+confidence = "high"
+
+[[app]]
+id       = "krita"
+name     = "Krita"
+strategy = "native"
+tags     = ["media", "image", "art"]
+match    = ["krita"]
+winget   = ["KDE.Krita"]
+pacman   = ["krita"]
+flatpak  = ["org.kde.krita"]
+carry    = ["AppData/Roaming/krita"]
+notes    = "Same program, and tablet pressure works out of the box on Wayland. Copy the krita folder for your brush presets."
+confidence = "high"
+
+[[app]]
+id       = "inkscape"
+name     = "Inkscape"
+strategy = "native"
+tags     = ["media", "image", "vector"]
+match    = ["inkscape"]
+winget   = ["Inkscape.Inkscape"]
+pacman   = ["inkscape"]
+flatpak  = ["org.inkscape.Inkscape"]
+carry    = ["AppData/Roaming/inkscape"]
+notes    = "Same program, and it starts noticeably faster here than on Windows."
+confidence = "high"
+
+[[app]]
+id       = "paint-net"
+name     = "Paint.NET"
+strategy = "alternative"
+tags     = ["media", "image"]
+match    = ["paint.net"]
+winget   = ["dotPDNLLC.paintdotnet"]
+replacement = "Pinta"
+pacman   = ["pinta", "krita", "gimp"]
+notes    = "Pinta was written as a Paint.NET-alike and lands in the same place: layers, effects, no learning curve. Krita if you outgrow it. Paint.NET plugins do not transfer."
+confidence = "high"
+
+[[app]]
+id       = "blender"
+name     = "Blender"
+strategy = "native"
+tags     = ["media", "3d"]
+match    = ["blender"]
+winget   = ["BlenderFoundation.Blender"]
+exe      = ["blender.exe"]
+pacman   = ["blender"]
+flatpak  = ["org.blender.Blender"]
+carry    = ["AppData/Roaming/Blender Foundation/Blender"]
+notes    = "Same application, and Cycles renders with CUDA/OptiX or HIP just as it did. Copy the Blender config folder to ~/.config/blender for your keymap and add-ons."
+confidence = "high"
+
+[[app]]
+id       = "figma"
+name     = "Figma"
+strategy = "web"
+tags     = ["media", "design"]
+match    = ["figma"]
+winget   = ["Figma.Figma"]
+aur      = ["figma-linux-bin"]
+notes    = "There is no official desktop app for Linux, but Figma in a browser is the same product with the same shortcuts. figma-linux is a community wrapper if you want a separate window; local font access is the only thing it adds."
+confidence = "high"
+
+[[app]]
+id       = "affinity"
+name     = "Affinity Photo / Designer / Publisher"
+strategy = "none"
+tags     = ["media", "image", "blocker"]
+match    = ["affinity photo", "affinity designer", "affinity publisher"]
+winget   = ["Serif.Affinity.Photo", "Serif.Affinity.Designer", "Serif.Affinity.Publisher"]
+notes    = "Serif has said repeatedly that they do not support Linux, and the Wine recipes that circulate work for some people and not others depending on version and GPU. Treat this as a blocker: the native answers are Krita or GIMP for Photo, Inkscape for Designer, and Scribus for Publisher."
+confidence = "high"
+
+[[app]]
+id       = "camtasia"
+name     = "Camtasia"
+strategy = "alternative"
+tags     = ["media", "video", "screencast"]
+match    = ["camtasia"]
+winget   = ["TechSmith.Camtasia"]
+replacement = "OBS Studio plus Kdenlive"
+pacman   = ["obs-studio", "kdenlive"]
+carry    = ["Documents/Camtasia"]
+notes    = "No Linux version. The usual split is OBS to record and Kdenlive to edit, which does everything Camtasia does apart from its one-click callouts and zoom animations, which you build by hand instead."
+confidence = "high"
+
+[[app]]
+id       = "sharex"
+name     = "ShareX"
+strategy = "alternative"
+tags     = ["utility", "screenshot"]
+match    = ["sharex"]
+winget   = ["ShareX.ShareX"]
+replacement = "Flameshot"
+pacman   = ["flameshot", "spectacle"]
+aur      = ["ksnip"]
+carry    = ["Documents/ShareX"]
+notes    = "Flameshot covers the capture, annotate and upload loop that ShareX is loved for, including custom upload targets. Screen recording is separate here: use OBS or your desktop built-in recorder."
+confidence = "high"
+
+[[app]]
+id       = "greenshot"
+name     = "Greenshot / Lightshot"
+strategy = "alternative"
+tags     = ["utility", "screenshot"]
+match    = ["greenshot", "lightshot"]
+winget   = ["Greenshot.Greenshot", "Skillbrains.Lightshot"]
+replacement = "Flameshot"
+pacman   = ["flameshot", "spectacle"]
+notes    = "Flameshot binds to PrintScreen and gives you the same select-annotate-copy flow. Both KDE and GNOME also ship a capable screenshot tool already, so try that before installing anything."
+confidence = "high"
+
+[[app]]
+id       = "irfanview"
+name     = "IrfanView / XnView"
+strategy = "alternative"
+tags     = ["media", "image", "viewer"]
+match    = ["irfanview", "xnview"]
+winget   = ["IrfanSkiljan.IrfanView", "XnSoft.XnViewMP"]
+replacement = "nomacs or Gwenview"
+pacman   = ["nomacs", "gwenview", "digikam"]
+notes    = "nomacs is the closest to IrfanView: fast, opens anything, does batch conversion. XnView MP itself has an official Linux build if you want your exact settings back, and digiKam covers bigger photo collections."
+confidence = "medium"
+
+# ---------------------------------------------------------------------------
+# Office, documents and notes
+# ---------------------------------------------------------------------------
+
+[[app]]
+id       = "microsoft-office"
+name     = "Microsoft Office / Microsoft 365"
+strategy = "web"
+tags     = ["office", "blocker"]
+match    = ["microsoft office", "microsoft 365", "office 16", "office 365"]
+winget   = ["Microsoft.Office"]
+exe      = ["winword.exe", "excel.exe", "powerpnt.exe", "outlook.exe"]
+pacman   = ["libreoffice-fresh"]
+aur      = ["onlyoffice-bin"]
+carry    = ["Documents"]
+notes    = "The desktop suite does not run on Linux. office.com gives you real Word, Excel and PowerPoint in a browser with your existing subscription, which is enough for most people. Locally, OnlyOffice matches Microsoft formatting most closely and LibreOffice is the most capable overall. Complex Excel macros and Access are the two things that genuinely do not survive."
+confidence = "high"
+
+[[app]]
+id       = "libreoffice"
+name     = "LibreOffice"
+strategy = "native"
+tags     = ["office"]
+match    = ["libreoffice"]
+winget   = ["TheDocumentFoundation.LibreOffice"]
+exe      = ["soffice.exe"]
+pacman   = ["libreoffice-fresh", "libreoffice-still"]
+flatpak  = ["org.libreoffice.LibreOffice"]
+carry    = ["AppData/Roaming/LibreOffice/4/user"]
+notes    = "Same suite. libreoffice-fresh is the current release, libreoffice-still the conservative one. Copy the 4/user folder to ~/.config/libreoffice/4/user for your templates, autocorrect and macros."
+confidence = "high"
+
+[[app]]
+id       = "onlyoffice"
+name     = "ONLYOFFICE Desktop Editors"
+strategy = "native"
+tags     = ["office"]
+match    = ["onlyoffice"]
+winget   = ["ONLYOFFICE.DesktopEditors"]
+aur      = ["onlyoffice-bin"]
+flatpak  = ["org.onlyoffice.desktopeditors"]
+notes    = "Officially supported on Linux and the closest thing to the Microsoft ribbon and formatting fidelity. A good first stop if LibreOffice mangles a document you care about."
+confidence = "high"
+
+[[app]]
+id       = "wps-office"
+name     = "WPS Office"
+strategy = "native"
+tags     = ["office"]
+match    = ["wps office"]
+winget   = ["Kingsoft.WPSOffice"]
+aur      = ["wps-office"]
+notes    = "There is an official Linux build in the AUR. It renders .docx well, though the Linux version updates later than the Windows one and some fonts need wps-office-fonts installed alongside."
+confidence = "medium"
+
+[[app]]
+id       = "notion"
+name     = "Notion"
+strategy = "web"
+tags     = ["notes"]
+match    = ["notion"]
+winget   = ["Notion.Notion"]
+aur      = ["notion-app-electron"]
+notes    = "Notion has never shipped a Linux desktop app. The web version is the full product, and notion-app-electron in the AUR is a community wrapper if you want it in its own window."
+confidence = "high"
+
+[[app]]
+id       = "obsidian"
+name     = "Obsidian"
+strategy = "native"
+tags     = ["notes"]
+match    = ["obsidian"]
+winget   = ["Obsidian.Obsidian"]
+pacman   = ["obsidian"]
+flatpak  = ["md.obsidian.Obsidian"]
+carry    = ["AppData/Roaming/obsidian", "Documents"]
+notes    = "In the official repos, and your vault is just a folder of markdown files, so copy it across and open it. Plugins and themes live inside the vault and come along too."
+confidence = "high"
+
+[[app]]
+id       = "evernote"
+name     = "Evernote"
+strategy = "alternative"
+tags     = ["notes"]
+match    = ["evernote"]
+winget   = ["Evernote.Evernote"]
+replacement = "Joplin"
+aur      = ["joplin-desktop"]
+flatpak  = ["net.cozic.joplin_desktop"]
+notes    = "Evernote has no Linux client. Joplin imports .enex exports directly and keeps the notebook and tag structure, so export from Evernote before you wipe the machine. The Evernote web app also works if you would rather not move."
+confidence = "high"
+
+[[app]]
+id       = "joplin"
+name     = "Joplin"
+strategy = "native"
+tags     = ["notes"]
+match    = ["joplin"]
+winget   = ["Joplin.Joplin"]
+aur      = ["joplin-desktop"]
+flatpak  = ["net.cozic.joplin_desktop"]
+carry    = ["AppData/Roaming/joplin-desktop"]
+notes    = "Same app on Linux. If you already sync to Nextcloud, Dropbox or a filesystem folder, just point the new install at it."
+confidence = "high"
+
+[[app]]
+id       = "zotero"
+name     = "Zotero"
+strategy = "native"
+tags     = ["research", "documents"]
+match    = ["zotero"]
+winget   = ["Zotero.Zotero"]
+aur      = ["zotero"]
+flatpak  = ["org.zotero.Zotero"]
+carry    = ["Zotero"]
+notes    = "Official Linux build. Copy the Zotero folder from your user profile to ~/Zotero and the whole library, attachments included, comes with you. The LibreOffice plugin installs from inside Zotero."
+confidence = "medium"
+
+[[app]]
+id       = "mendeley"
+name     = "Mendeley Reference Manager"
+strategy = "web"
+tags     = ["research", "documents"]
+match    = ["mendeley"]
+winget   = ["Mendeley.MendeleyDesktop"]
+aur      = ["mendeley-reference-manager-appimage"]
+notes    = "Elsevier dropped the Linux desktop build; what remains is the web library plus a browser plugin. If that is too thin, Zotero imports a Mendeley library directly and is the usual destination."
+confidence = "low"
+
+[[app]]
+id       = "foxit-reader"
+name     = "Foxit Reader"
+strategy = "alternative"
+tags     = ["pdf"]
+match    = ["foxit"]
+winget   = ["Foxit.FoxitReader"]
+replacement = "Okular"
+pacman   = ["okular", "evince", "zathura", "zathura-pdf-mupdf"]
+notes    = "Foxit's Linux build has been abandoned for years. Okular does everything Foxit did including annotations and form filling, and starts faster."
+confidence = "high"
+
+[[app]]
+id       = "adobe-reader"
+name     = "Adobe Acrobat Reader DC"
+strategy = "alternative"
+tags     = ["pdf", "adobe"]
+match    = ["adobe acrobat reader", "adobe reader"]
+winget   = ["Adobe.Acrobat.Reader.64-bit"]
+exe      = ["acrord32.exe"]
+replacement = "Okular"
+pacman   = ["okular", "evince"]
+notes    = "Adobe stopped shipping Reader for Linux in 2013 and nobody misses it. Okular and Evince open the same files, fill the same forms and handle digital signatures. Documents that require Adobe's DRM or LiveCycle forms are the rare exception."
+confidence = "high"
+
+[[app]]
+id       = "sumatra-pdf"
+name     = "SumatraPDF"
+strategy = "alternative"
+tags     = ["pdf"]
+match    = ["sumatrapdf", "sumatra pdf"]
+winget   = ["SumatraPDF.SumatraPDF"]
+replacement = "zathura"
+pacman   = ["zathura", "zathura-pdf-mupdf", "zathura-cb", "okular"]
+notes    = "zathura is the same idea taken further: instant startup, keyboard driven, reads PDF, CBZ and DjVu. Okular if you want menus and a toolbar."
+confidence = "high"
+
+[[app]]
+id       = "calibre"
+name     = "calibre"
+strategy = "native"
+tags     = ["ebooks"]
+match    = ["calibre"]
+winget   = ["calibre.calibre"]
+pacman   = ["calibre"]
+flatpak  = ["com.calibre_ebook.calibre"]
+carry    = ["Documents/Calibre Library"]
+notes    = "Same application. Copy the Calibre Library folder over and point calibre at it on first launch; metadata, covers and conversions all survive."
+confidence = "high"
+
+[[app]]
+id       = "anki"
+name     = "Anki"
+strategy = "native"
+tags     = ["education"]
+match    = ["anki"]
+winget   = ["Anki.Anki"]
+pacman   = ["anki"]
+flatpak  = ["net.ankiweb.Anki"]
+carry    = ["AppData/Roaming/Anki2"]
+notes    = "In the official repos. Sync through AnkiWeb is the clean way to move; failing that, export a .colpkg with media and import it here."
+confidence = "high"
+
+# ---------------------------------------------------------------------------
+# Utilities and system tools
+# ---------------------------------------------------------------------------
+
+[[app]]
+id       = "7zip"
+name     = "7-Zip"
+strategy = "native"
+tags     = ["utility", "archive"]
+match    = ["7-zip"]
+winget   = ["7zip.7zip"]
+exe      = ["7zfm.exe"]
+pacman   = ["7zip", "p7zip", "ark", "file-roller"]
+notes    = "7-Zip itself is packaged as 7zip, and your desktop already has an archive manager (Ark on KDE, File Roller on GNOME) that handles right-click extract."
+confidence = "high"
+
+[[app]]
+id       = "winrar"
+name     = "WinRAR"
+strategy = "alternative"
+tags     = ["utility", "archive"]
+match    = ["winrar"]
+winget   = ["RARLab.WinRAR"]
+replacement = "Ark or File Roller, with unrar"
+pacman   = ["unrar", "ark", "file-roller", "7zip"]
+notes    = "Install unrar and your existing .rar archives open from the file manager like anything else. Creating new .rar files needs the proprietary rar package from the AUR, but almost nobody needs to; use 7z or zip instead."
+confidence = "high"
+
+[[app]]
+id       = "peazip"
+name     = "PeaZip"
+strategy = "native"
+tags     = ["utility", "archive"]
+match    = ["peazip"]
+winget   = ["Giorgiotani.Peazip"]
+aur      = ["peazip"]
+pacman   = ["ark", "file-roller"]
+notes    = "PeaZip has an official Linux build in the AUR. Your desktop archive manager already covers the same formats, so try that first."
+confidence = "medium"
+
+[[app]]
+id       = "everything"
+name     = "Everything (voidtools)"
+strategy = "alternative"
+tags     = ["utility", "search"]
+match    = ["everything"]
+winget   = ["voidtools.Everything"]
+replacement = "FSearch"
+pacman   = ["plocate"]
+aur      = ["fsearch"]
+flatpak  = ["io.github.cboxdoerfer.FSearch"]
+notes    = "FSearch was written specifically to be Everything for Linux and feels the same. On the command line, plocate answers instantly once its daily index has run, and your desktop search (KRunner, GNOME search) covers quick lookups."
+confidence = "medium"
+
+[[app]]
+id       = "total-commander"
+name     = "Total Commander"
+strategy = "alternative"
+tags     = ["utility", "files"]
+match    = ["total commander"]
+winget   = ["Ghisler.TotalCommander"]
+replacement = "Krusader"
+pacman   = ["krusader", "mc"]
+aur      = ["doublecmd-qt6"]
+notes    = "Krusader is the two-pane file manager with the F-key layout you already know. Double Commander is closer to Total Commander's exact look, and Midnight Commander is the terminal version."
+confidence = "high"
+
+[[app]]
+id       = "disk-usage-analyzer"
+name     = "WinDirStat / WizTree / TreeSize"
+strategy = "alternative"
+tags     = ["utility", "disk"]
+match    = ["windirstat", "wiztree", "treesize"]
+winget   = ["WinDirStat.WinDirStat", "AntibodySoftware.WizTree", "JAMSoftware.TreeSize.Free"]
+replacement = "Filelight or Baobab"
+pacman   = ["filelight", "baobab", "ncdu"]
+notes    = "Filelight on KDE and Baobab on GNOME both draw the same ring or treemap of what is eating your disk. ncdu is the terminal one and is the fastest of the three over SSH."
+confidence = "high"
+
+[[app]]
+id       = "ccleaner"
+name     = "CCleaner"
+strategy = "builtin"
+tags     = ["utility", "maintenance"]
+match    = ["ccleaner"]
+winget   = ["Piriform.CCleaner"]
+notes    = "There is nothing here for CCleaner to clean. Linux has no registry, and applications keep their settings in plain files under ~/.config. The only housekeeping worth doing is clearing the package cache now and then with paccache -r, and removing orphaned packages with pacman -Qtdq. Be wary of any Linux tool that promises CCleaner-style cleaning; they mostly just delete things you wanted."
+confidence = "high"
+
+[[app]]
+id       = "rufus"
+name     = "Rufus"
+strategy = "alternative"
+tags     = ["utility", "usb"]
+match    = ["rufus"]
+winget   = ["Rufus.Rufus"]
+replacement = "Impression, or dd"
+pacman   = ["gnome-disk-utility"]
+aur      = ["ventoy-bin"]
+flatpak  = ["io.gitlab.adhami3310.Impression"]
+notes    = "Impression is the friendly graphical option, GNOME Disks can restore an image to a stick, and dd bs=4M if=file.iso of=/dev/sdX status=progress is the one-liner most people end up using. Modern Linux ISOs are hybrid images, so no special mode is needed."
+confidence = "high"
+
+[[app]]
+id       = "ventoy"
+name     = "Ventoy"
+strategy = "native"
+tags     = ["utility", "usb"]
+match    = ["ventoy"]
+winget   = ["Ventoy.Ventoy"]
+aur      = ["ventoy-bin"]
+notes    = "Same tool, same USB stick. A Ventoy drive made on Windows keeps working here; you only reinstall Ventoy itself if you want to update it."
+confidence = "high"
+
+[[app]]
+id       = "balena-etcher"
+name     = "balenaEtcher"
+strategy = "native"
+tags     = ["utility", "usb"]
+match    = ["balenaetcher", "etcher"]
+winget   = ["Balena.Etcher"]
+aur      = ["balena-etcher"]
+flatpak  = ["io.balena.etcher"]
+notes    = "Official Linux build, identical three-step flow. If you would rather not run an Electron app as root, Impression or GNOME Disks do the same job."
+confidence = "medium"
+
+[[app]]
+id       = "cpu-z"
+name     = "CPU-Z / GPU-Z"
+strategy = "alternative"
+tags     = ["utility", "hardware"]
+match    = ["cpu-z", "gpu-z"]
+winget   = ["CPUID.CPU-Z", "TechPowerUp.GPU-Z"]
+replacement = "CPU-X"
+pacman   = ["cpu-x", "nvtop", "radeontop", "lshw"]
+notes    = "CPU-X is a direct clone down to the tab layout. For the GPU side, nvtop shows live utilisation for NVIDIA, AMD and Intel, and radeontop is the AMD-specific one. inxi -Fxz prints the whole machine in one command."
+confidence = "medium"
+
+[[app]]
+id       = "hwinfo"
+name     = "HWiNFO"
+strategy = "alternative"
+tags     = ["utility", "hardware", "monitoring"]
+match    = ["hwinfo"]
+winget   = ["REALiX.HWiNFO"]
+replacement = "lm_sensors plus Mission Center"
+pacman   = ["lm_sensors", "cpu-x", "nvtop"]
+aur      = ["mission-center"]
+flatpak  = ["io.missioncenter.MissionCenter"]
+notes    = "Being straight with you: nothing on Linux matches HWiNFO's sensor coverage. Run sensors-detect once and lm_sensors will read temperatures, fans and voltages, Mission Center gives you a Task Manager-style live view, and your desktop panel probably has a sensor widget. Some motherboard-specific sensors simply will not be exposed."
+confidence = "high"
+
+[[app]]
+id       = "msi-afterburner"
+name     = "MSI Afterburner"
+strategy = "alternative"
+tags     = ["utility", "gaming", "overclock"]
+match    = ["msi afterburner", "rivatuner"]
+winget   = ["Guru3D.Afterburner"]
+replacement = "MangoHud plus CoreCtrl"
+pacman   = ["mangohud", "lib32-mangohud"]
+aur      = ["corectrl", "lact"]
+notes    = "The two halves split up here. MangoHud is the in-game overlay and it is better than RTSS for this: FPS, frametimes, temperatures, all configurable per game. CoreCtrl or LACT handle fan curves and undervolting, with the best support on AMD; NVIDIA overclocking is possible but fiddlier than Afterburner made it."
+confidence = "high"
+
+[[app]]
+id       = "rainmeter"
+name     = "Rainmeter"
+strategy = "alternative"
+tags     = ["utility", "desktop"]
+match    = ["rainmeter"]
+winget   = ["Rainmeter.Rainmeter"]
+replacement = "Conky, or your desktop widgets"
+pacman   = ["conky"]
+aur      = ["eww"]
+carry    = ["Documents/Rainmeter"]
+notes    = "Your Rainmeter skins do not transfer. Conky is the classic system-monitor overlay and is endlessly configurable, eww is the modern equivalent, and KDE Plasma widgets cover the simpler clock-and-weather cases without any config file."
+confidence = "high"
+
+[[app]]
+id       = "powertoys"
+name     = "Microsoft PowerToys"
+strategy = "alternative"
+tags     = ["utility", "desktop"]
+match    = ["powertoys"]
+winget   = ["Microsoft.PowerToys"]
+replacement = "desktop built-ins, plus rofi and keyd"
+pacman   = ["rofi", "xdotool"]
+aur      = ["ulauncher", "keyd"]
+notes    = "Most of PowerToys already exists here. KDE and GNOME both do window tiling, virtual desktops and colour picking natively; KRunner or rofi replace PowerToys Run; keyd remaps keys system-wide; and bulk file renaming is built into Dolphin and Nautilus."
+confidence = "high"
+
+[[app]]
+id       = "autohotkey"
+name     = "AutoHotkey"
+strategy = "alternative"
+tags     = ["utility", "automation"]
+match    = ["autohotkey"]
+winget   = ["AutoHotkey.AutoHotkey"]
+replacement = "AutoKey, keyd and xdotool"
+pacman   = ["xdotool", "wtype"]
+aur      = ["autokey", "keyd"]
+notes    = "Your .ahk scripts will not run and there is no single tool that replaces them. Simple hotkeys go in your desktop's shortcut settings, key remapping goes to keyd, text expansion to AutoKey or Espanso, and window automation to xdotool on X11 or ydotool on Wayland."
+confidence = "high"
+
+[[app]]
+id       = "flux"
+name     = "f.lux"
+strategy = "builtin"
+tags     = ["utility", "display"]
+match    = ["f.lux", "flux"]
+winget   = ["flux.flux"]
+replacement = "Night Light / Night Color"
+pacman   = ["redshift", "gammastep"]
+notes    = "KDE calls it Night Color and GNOME calls it Night Light; both are in display settings and do exactly what f.lux did. redshift (X11) and gammastep (Wayland) are the standalone versions if you use a lighter window manager."
+confidence = "high"
+
+[[app]]
+id       = "barrier"
+name     = "Barrier / Synergy / ShareMouse"
+strategy = "alternative"
+tags     = ["utility", "input"]
+match    = ["barrier", "synergy", "sharemouse"]
+winget   = ["DebaucheeOpenSourceGroup.Barrier", "Symless.Synergy"]
+replacement = "Input Leap"
+aur      = ["input-leap", "deskflow"]
+notes    = "Barrier is unmaintained; Input Leap is its active fork and is what to install. Synergy still sells a Linux version. Be aware that keyboard and mouse sharing under Wayland is still rough, so on a mixed setup expect to test before relying on it."
+confidence = "medium"
+
+[[app]]
+id       = "qbittorrent"
+name     = "qBittorrent"
+strategy = "native"
+tags     = ["utility", "torrent"]
+match    = ["qbittorrent"]
+winget   = ["qBittorrent.qBittorrent"]
+exe      = ["qbittorrent.exe"]
+pacman   = ["qbittorrent"]
+flatpak  = ["org.qbittorrent.qBittorrent"]
+carry    = ["AppData/Roaming/qBittorrent", "AppData/Local/qBittorrent"]
+notes    = "Same client, in the official repos. Copy both qBittorrent folders and your torrents resume where they left off, as long as the download paths still point somewhere real."
+confidence = "high"
+
+[[app]]
+id       = "utorrent"
+name     = "uTorrent"
+strategy = "alternative"
+tags     = ["utility", "torrent"]
+match    = ["utorrent", "µtorrent"]
+winget   = ["BitTorrent.uTorrent"]
+replacement = "qBittorrent"
+pacman   = ["qbittorrent", "transmission-qt"]
+notes    = "There has been no real uTorrent for Linux since 2018, and the modern Windows one is mostly adverts anyway. qBittorrent is the direct replacement, deliberately built to look like old uTorrent, with no ads and a web UI if you want one."
+confidence = "high"
+
+[[app]]
+id       = "transmission"
+name     = "Transmission"
+strategy = "native"
+tags     = ["utility", "torrent"]
+match    = ["transmission"]
+winget   = ["Transmission.Transmission"]
+pacman   = ["transmission-gtk", "transmission-qt", "transmission-cli"]
+flatpak  = ["com.transmissionbt.Transmission"]
+notes    = "Transmission started on Unix, so this is its home platform. Pick the gtk or qt build to match your desktop, or transmission-cli to run it as a daemon."
+confidence = "high"
+
+[[app]]
+id       = "jdownloader"
+name     = "JDownloader 2"
+strategy = "native"
+tags     = ["utility", "download"]
+match    = ["jdownloader"]
+winget   = ["AppWork.JDownloader"]
+aur      = ["jdownloader2"]
+flatpak  = ["org.jdownloader.JDownloader"]
+notes    = "It is a Java application, so it is the same program on both systems. Your account list and link grabber settings live under the install folder and can be copied over."
+confidence = "medium"
+
+[[app]]
+id       = "free-download-manager"
+name     = "Free Download Manager"
+strategy = "native"
+tags     = ["utility", "download"]
+match    = ["free download manager"]
+winget   = ["SoftDeluxe.FreeDownloadManager"]
+aur      = ["freedownloadmanager"]
+pacman   = ["aria2"]
+notes    = "There is an official Linux build in the AUR. If you mostly wanted parallel connections and resume, aria2 does that from the command line and persepolis puts a GUI on it."
+confidence = "medium"
+
+[[app]]
+id       = "teamviewer"
+name     = "TeamViewer"
+strategy = "native"
+tags     = ["utility", "remote"]
+match    = ["teamviewer"]
+winget   = ["TeamViewer.TeamViewer"]
+aur      = ["teamviewer"]
+notes    = "Official Linux client with the same ID-and-password flow, so you can still help family on Windows. Enable and start teamviewerd.service after installing or it will not connect."
+confidence = "high"
+
+[[app]]
+id       = "anydesk"
+name     = "AnyDesk"
+strategy = "native"
+tags     = ["utility", "remote"]
+match    = ["anydesk"]
+winget   = ["AnyDeskSoftwareGmbH.AnyDesk"]
+aur      = ["anydesk-bin"]
+notes    = "Official Linux build. Unattended access works; the one rough edge is that controlling a Wayland session is limited, so for a headless machine an X11 session is still the safer choice."
+confidence = "high"
+
+[[app]]
+id       = "parsec"
+name     = "Parsec"
+strategy = "native"
+tags     = ["utility", "remote", "gaming"]
+match    = ["parsec"]
+winget   = ["Parsec.Parsec"]
+aur      = ["parsec-bin"]
+flatpak  = ["com.parsecgaming.parsec"]
+notes    = "You can connect out to a Windows host normally, which is how most people keep access to one Windows game machine. Hosting from Linux is not supported by Parsec; Sunshine plus Moonlight covers that direction instead."
+confidence = "high"
+
+[[app]]
+id       = "rustdesk"
+name     = "RustDesk"
+strategy = "native"
+tags     = ["utility", "remote"]
+match    = ["rustdesk"]
+winget   = ["RustDesk.RustDesk"]
+aur      = ["rustdesk-bin"]
+flatpak  = ["com.rustdesk.RustDesk"]
+notes    = "Same open-source client, and it talks to your existing self-hosted relay if you run one. The usual choice when TeamViewer starts accusing you of commercial use."
+confidence = "high"
+
+[[app]]
+id       = "nextcloud"
+name     = "Nextcloud Desktop"
+strategy = "native"
+tags     = ["cloud", "sync"]
+match    = ["nextcloud"]
+winget   = ["Nextcloud.NextcloudDesktop"]
+pacman   = ["nextcloud-client"]
+flatpak  = ["com.nextcloud.desktopclient.nextcloud"]
+notes    = "In the official repos, with the same sync client and virtual-files support. Point it at your server and let it re-download rather than copying the folder by hand."
+confidence = "high"
+
+[[app]]
+id       = "dropbox"
+name     = "Dropbox"
+strategy = "native"
+tags     = ["cloud", "sync"]
+match    = ["dropbox"]
+winget   = ["Dropbox.Dropbox"]
+exe      = ["dropbox.exe"]
+aur      = ["dropbox", "nautilus-dropbox"]
+notes    = "Official Linux client, though Dropbox only supports it on ext4 and a few other filesystems, so it will refuse to sync onto btrfs or exFAT. Let it re-sync from the cloud instead of copying the local folder."
+confidence = "high"
+
+[[app]]
+id       = "google-drive"
+name     = "Google Drive for Desktop"
+strategy = "alternative"
+tags     = ["cloud", "sync"]
+match    = ["google drive", "backup and sync"]
+winget   = ["Google.GoogleDrive"]
+replacement = "rclone, or GNOME Online Accounts"
+pacman   = ["rclone"]
+aur      = ["insync", "google-drive-ocamlfuse"]
+notes    = "Google has never made a Linux client. GNOME Online Accounts and KDE both mount Drive into the file manager for browsing, rclone gives you real two-way sync and mounting from the command line, and Insync is the paid app that behaves most like the Windows one."
+confidence = "high"
+
+[[app]]
+id       = "onedrive"
+name     = "Microsoft OneDrive"
+strategy = "alternative"
+tags     = ["cloud", "sync"]
+match    = ["onedrive"]
+winget   = ["Microsoft.OneDrive"]
+exe      = ["onedrive.exe"]
+replacement = "OneDrive Client for Linux (abraunegg)"
+pacman   = ["rclone"]
+aur      = ["onedrive-abraunegg"]
+notes    = "Microsoft ships no Linux client. The abraunegg client is mature and syncs personal and business accounts reliably from a config file; rclone works too. Before you wipe Windows, make sure everything is actually downloaded and not just a placeholder file."
+confidence = "high"
+
+[[app]]
+id       = "mega"
+name     = "MEGAsync"
+strategy = "native"
+tags     = ["cloud", "sync"]
+match    = ["megasync", "mega"]
+winget   = ["Mega.MEGASync"]
+aur      = ["megasync-bin"]
+notes    = "Official Linux client with the same sync folders and file-manager integration."
+confidence = "medium"
+
+[[app]]
+id       = "syncthing"
+name     = "Syncthing"
+strategy = "native"
+tags     = ["cloud", "sync"]
+match    = ["syncthing"]
+winget   = ["Syncthing.Syncthing"]
+pacman   = ["syncthing"]
+notes    = "In the official repos. Run it as a user service with systemctl --user enable --now syncthing. Set the new machine up as a fresh device and re-accept the folder shares rather than copying the old config; the device ID changes anyway."
+confidence = "high"
+
+[[app]]
+id       = "keepass"
+name     = "KeePass / KeePassXC"
+strategy = "native"
+tags     = ["security", "passwords"]
+match    = ["keepass", "keepassxc"]
+winget   = ["DominikReichl.KeePass", "KeePassXCTeam.KeePassXC"]
+exe      = ["keepass.exe", "keepassxc.exe"]
+pacman   = ["keepassxc"]
+flatpak  = ["org.keepassxc.KeePassXC"]
+notes    = "KeePassXC is in the official repos and opens your existing .kdbx file directly, whichever KeePass fork made it. Copy the database and any key file across before wiping the drive, and check you can unlock it on the new machine before you delete anything."
+confidence = "high"
+
+[[app]]
+id       = "bitwarden"
+name     = "Bitwarden"
+strategy = "native"
+tags     = ["security", "passwords"]
+match    = ["bitwarden"]
+winget   = ["Bitwarden.Bitwarden"]
+pacman   = ["bitwarden"]
+flatpak  = ["com.bitwarden.desktop"]
+notes    = "In the official repos, plus the same browser extensions. Everything is server-side, so signing in is the whole migration."
+confidence = "high"
+
+[[app]]
+id       = "1password"
+name     = "1Password"
+strategy = "native"
+tags     = ["security", "passwords"]
+match    = ["1password"]
+winget   = ["AgileBits.1Password"]
+aur      = ["1password"]
+notes    = "AgileBits builds and supports a Linux desktop app, including SSH agent and browser unlock. Sign in with your account and Secret Key; nothing local needs moving."
+confidence = "high"
+
+[[app]]
+id       = "lastpass"
+name     = "LastPass"
+strategy = "web"
+tags     = ["security", "passwords"]
+match    = ["lastpass"]
+winget   = ["LastPass.LastPass"]
+notes    = "The desktop app was Windows and macOS only; on Linux you use the browser extension and the web vault, which is where LastPass keeps everything anyway. If you were already thinking about leaving, Bitwarden and KeePassXC both import a LastPass CSV export."
+confidence = "high"
+
+[[app]]
+id       = "antivirus"
+name     = "Antivirus (Malwarebytes, Norton, McAfee, Avast, AVG, Kaspersky, Bitdefender)"
+strategy = "none"
+tags     = ["security"]
+match    = ["malwarebytes", "norton", "mcafee", "avast", "avg antivirus", "kaspersky", "bitdefender", "eset", "avira"]
+winget   = ["Malwarebytes.Malwarebytes"]
+regex    = "(anti[- ]?virus|internet security|total security)"
+pacman   = ["clamav"]
+notes    = "Do not install a replacement. Desktop Linux has no meaningful consumer malware problem, you install software from signed repositories rather than download sites, and resident antivirus mostly adds attack surface. ClamAV exists if you need to scan files you are forwarding to Windows users. Keep the system updated, use a password manager, and take backups; that is the whole security story here."
+confidence = "high"
+
+[[app]]
+id       = "notepad"
+name     = "Notepad"
+strategy = "builtin"
+tags     = ["builtin", "editor"]
+match    = ["notepad"]
+exe      = ["notepad.exe"]
+pacman   = ["kate", "gnome-text-editor", "nano"]
+notes    = "Every desktop ships a plain text editor: Kate on KDE, Text Editor on GNOME, plus nano and vim in the terminal. Nothing to install."
+confidence = "high"
+
+[[app]]
+id       = "mspaint"
+name     = "Microsoft Paint"
+strategy = "builtin"
+tags     = ["builtin", "image"]
+match    = ["paint", "mspaint"]
+exe      = ["mspaint.exe"]
+pacman   = ["kolourpaint", "pinta"]
+notes    = "KolourPaint is Paint, essentially exactly, and is a two-second install if your desktop did not include it. Pinta if you want layers."
+confidence = "high"
+
+[[app]]
+id       = "calculator"
+name     = "Windows Calculator"
+strategy = "builtin"
+tags     = ["builtin"]
+match    = ["calculator"]
+exe      = ["calc.exe"]
+pacman   = ["kcalc", "gnome-calculator"]
+notes    = "Already there, with the same scientific and unit-conversion modes. KRunner and the GNOME search box also do arithmetic if you just type a sum."
+confidence = "high"
+
+[[app]]
+id       = "snipping-tool"
+name     = "Snipping Tool"
+strategy = "builtin"
+tags     = ["builtin", "screenshot"]
+match    = ["snipping tool", "snip & sketch"]
+pacman   = ["spectacle", "gnome-screenshot", "flameshot"]
+notes    = "PrintScreen already opens a region-select capture tool on both KDE (Spectacle) and GNOME. Flameshot is the upgrade if you want annotation and direct upload."
+confidence = "high"
+
+[[app]]
+id       = "windows-media-player"
+name     = "Windows Media Player"
+strategy = "builtin"
+tags     = ["builtin", "media"]
+match    = ["windows media player"]
+exe      = ["wmplayer.exe"]
+pacman   = ["vlc", "mpv", "elisa"]
+notes    = "Your desktop comes with a player already, and VLC or mpv handle anything it chokes on. Elisa or Rhythmbox if you specifically want a music library view."
+confidence = "high"
+
+[[app]]
+id       = "explorer"
+name     = "Windows Explorer"
+strategy = "builtin"
+tags     = ["builtin", "files"]
+match    = ["windows explorer", "file explorer"]
+exe      = ["explorer.exe"]
+pacman   = ["dolphin", "nautilus", "thunar"]
+notes    = "Your desktop environment includes a file manager: Dolphin on KDE, Files on GNOME, Thunar on Xfce. Dolphin is the closest to Explorer in features, with tabs, split view and network shares built in."
+confidence = "high"
+
+# ---------------------------------------------------------------------------
+# Gaming
+# ---------------------------------------------------------------------------
+
+[[app]]
+id       = "steam"
+name     = "Steam"
+strategy = "native"
+tags     = ["gaming", "launcher"]
+match    = ["steam"]
+winget   = ["Valve.Steam"]
+exe      = ["steam.exe"]
+pacman   = ["steam", "mangohud", "lib32-mangohud", "gamemode", "lib32-gamemode"]
+aur      = ["protonup-qt"]
+notes    = "Steam is in multilib, so enable that repo first. Turn on Steam Play for all titles in Settings and Proton runs most of your Windows library unchanged. Your existing steamapps folder can be reused if you keep the drive; check protondb.com for anything you care about, and see anticheat.toml for the multiplayer games that will not run."
+confidence = "high"
+
+[[app]]
+id       = "epic-games-launcher"
+name     = "Epic Games Launcher"
+strategy = "alternative"
+tags     = ["gaming", "launcher"]
+match    = ["epic games launcher"]
+winget   = ["EpicGames.EpicGamesLauncher"]
+replacement = "Heroic Games Launcher"
+aur      = ["heroic-games-launcher-bin"]
+flatpak  = ["com.heroicgameslauncher.hgl"]
+notes    = "Heroic signs into your Epic account, downloads your library and launches games through Proton. It handles GOG and Amazon Prime games too. Games work as well as they do on Steam; the exceptions are the anti-cheat titles, Fortnite in particular."
+confidence = "high"
+
+[[app]]
+id       = "gog-galaxy"
+name     = "GOG Galaxy"
+strategy = "alternative"
+tags     = ["gaming", "launcher"]
+match    = ["gog galaxy"]
+winget   = ["GOG.Galaxy"]
+replacement = "Heroic Games Launcher"
+pacman   = ["lutris"]
+aur      = ["heroic-games-launcher-bin", "minigalaxy"]
+notes    = "GOG has no Linux Galaxy client. Heroic logs into your GOG account and installs from it, Minigalaxy is a simpler version of the same idea, and a fair number of GOG games have native Linux builds you can download directly from the website."
+confidence = "high"
+
+[[app]]
+id       = "ea-app"
+name     = "EA app / Origin"
+strategy = "compat"
+tags     = ["gaming", "launcher"]
+match    = ["ea app", "origin", "ea desktop"]
+winget   = ["ElectronicArts.EADesktop"]
+pacman   = ["lutris", "wine"]
+flatpak  = ["com.usebottles.bottles"]
+notes    = "There is no Linux build, but the EA app installs through Lutris or Bottles and works for most single-player titles. Easier still: EA games bought on Steam launch through Proton and pull the EA app in automatically. Multiplayer titles with EA's kernel anti-cheat, like Battlefield, will not run either way."
+confidence = "medium"
+
+[[app]]
+id       = "ubisoft-connect"
+name     = "Ubisoft Connect"
+strategy = "compat"
+tags     = ["gaming", "launcher"]
+match    = ["ubisoft connect", "uplay"]
+winget   = ["Ubisoft.Connect"]
+pacman   = ["lutris", "wine"]
+flatpak  = ["com.usebottles.bottles"]
+notes    = "Installs cleanly through Lutris and runs most of the catalogue. Rainbow Six Siege is the notable casualty, because its anti-cheat blocks Linux regardless of how well the launcher runs."
+confidence = "medium"
+
+[[app]]
+id       = "battlenet"
+name     = "Battle.net"
+strategy = "compat"
+tags     = ["gaming", "launcher"]
+match    = ["battle.net", "blizzard"]
+winget   = ["Blizzard.BattleNet"]
+pacman   = ["lutris", "wine"]
+flatpak  = ["com.usebottles.bottles"]
+notes    = "One of the better-behaved Windows launchers under Wine. Lutris has a maintained install script, and World of Warcraft, Diablo IV and Overwatch 2 all run well afterwards. Expect the launcher itself to need an occasional nudge after Blizzard updates it."
+confidence = "medium"
+
+[[app]]
+id       = "rockstar-launcher"
+name     = "Rockstar Games Launcher"
+strategy = "compat"
+tags     = ["gaming", "launcher"]
+match    = ["rockstar games launcher", "social club"]
+winget   = ["RockstarGames.RockstarGamesLauncher"]
+pacman   = ["lutris", "wine"]
+notes    = "The launcher runs under Proton or Lutris and single-player GTA V and Red Dead 2 play fine. GTA Online is a different matter: it uses BattlEye in a mode Rockstar has not enabled for Linux, so online play is out."
+confidence = "medium"
+
+[[app]]
+id       = "riot-client"
+name     = "Riot Client (League of Legends, Valorant)"
+strategy = "none"
+tags     = ["gaming", "launcher", "blocker"]
+match    = ["riot client", "league of legends", "valorant"]
+winget   = ["RiotGames.LeagueOfLegends.EUW", "RiotGames.Valorant"]
+notes    = "Riot's Vanguard anti-cheat is a kernel driver that must load at boot on Windows, and Riot has stated it will not support Linux. This blocks Valorant outright, and League of Legends since Vanguard was added to it in 2024. There is no workaround, and attempting one risks a ban. If either game matters to you, plan for a dual boot before you wipe the drive."
+confidence = "high"
+
+[[app]]
+id       = "xbox-app"
+name     = "Xbox app / Game Pass"
+strategy = "web"
+tags     = ["gaming", "launcher"]
+match    = ["xbox", "gaming services"]
+notes    = "The Xbox app and PC Game Pass installs do not work on Linux. Cloud gaming through xbox.com/play does work in a Chromium-based browser and covers a large part of the Game Pass catalogue, including with a controller."
+confidence = "high"
+
+[[app]]
+id       = "nvidia-geforce-experience"
+name     = "NVIDIA GeForce Experience / NVIDIA App"
+strategy = "alternative"
+tags     = ["gaming", "drivers"]
+match    = ["geforce experience", "nvidia app"]
+winget   = ["Nvidia.GeForceExperience"]
+replacement = "nvidia-settings"
+pacman   = ["nvidia", "nvidia-utils", "nvidia-settings"]
+aur      = ["gwe"]
+notes    = "Drivers come from the repos and update with the rest of the system, so there is no separate updater to run. nvidia-settings covers displays and G-Sync, GreenWithEnvy adds fan and clock control. ShadowPlay-style recording is replaced by OBS with NVENC, and there is no game-optimisation feature; you set graphics options yourself."
+confidence = "high"
+
+[[app]]
+id       = "amd-radeon-software"
+name     = "AMD Software / Radeon Adrenalin"
+strategy = "builtin"
+tags     = ["gaming", "drivers"]
+match    = ["amd software", "radeon software", "amd adrenalin"]
+replacement = "Mesa, plus CoreCtrl"
+pacman   = ["mesa", "vulkan-radeon", "lib32-mesa", "lib32-vulkan-radeon"]
+aur      = ["corectrl", "lact"]
+notes    = "AMD graphics drivers are part of the kernel and Mesa, so they are already installed and updated; this is the one area where Linux is simpler than Windows. CoreCtrl or LACT give you the fan curves, undervolting and per-game profiles the Adrenalin panel had."
+confidence = "high"
+
+[[app]]
+id       = "razer-synapse"
+name     = "Razer Synapse"
+strategy = "alternative"
+tags     = ["gaming", "peripherals"]
+match    = ["razer synapse", "razer"]
+replacement = "OpenRazer plus Polychromatic"
+pacman   = ["openrgb"]
+aur      = ["openrazer-meta", "polychromatic"]
+notes    = "OpenRazer is a community driver covering most Razer hardware, with Polychromatic as the GUI for lighting and DPI. Macro keys and per-game profiles are weaker than Synapse, but settings saved to on-device memory keep working regardless."
+confidence = "medium"
+
+[[app]]
+id       = "logitech-ghub"
+name     = "Logitech G HUB / Options"
+strategy = "alternative"
+tags     = ["gaming", "peripherals"]
+match    = ["logitech g hub", "logitech options", "logitech gaming software"]
+winget   = ["Logitech.GHUB"]
+replacement = "Solaar and Piper"
+pacman   = ["solaar", "piper", "libratbag", "openrgb"]
+notes    = "Solaar handles Unifying receivers, pairing and battery for Logitech keyboards and mice; Piper sets DPI, polling rate and button mapping on G-series mice. Both are in the official repos and most people find them less irritating than G HUB."
+confidence = "high"
+
+[[app]]
+id       = "corsair-icue"
+name     = "Corsair iCUE"
+strategy = "alternative"
+tags     = ["gaming", "peripherals", "rgb"]
+match    = ["icue", "corsair"]
+replacement = "OpenRGB"
+pacman   = ["openrgb"]
+aur      = ["ckb-next"]
+notes    = "OpenRGB controls most Corsair lighting, and ckb-next specifically supports Corsair keyboards and mice including macros. AIO pump and fan control is the gap; liquidctl covers some Corsair coolers from the command line."
+confidence = "high"
+
+[[app]]
+id       = "steelseries-gg"
+name     = "SteelSeries GG / Engine"
+strategy = "alternative"
+tags     = ["gaming", "peripherals", "rgb"]
+match    = ["steelseries"]
+replacement = "OpenRGB"
+pacman   = ["openrgb"]
+aur      = ["rivalcfg", "headsetcontrol"]
+notes    = "OpenRGB does lighting, rivalcfg configures Rival mice, and HeadsetControl reads battery and sidetone on SteelSeries headsets. Sonar's audio mixing has no equivalent, though PipeWire with EasyEffects covers most of what it did."
+confidence = "medium"
+
+[[app]]
+id       = "reshade"
+name     = "ReShade"
+strategy = "alternative"
+tags     = ["gaming", "graphics"]
+match    = ["reshade"]
+replacement = "vkBasalt"
+aur      = ["vkbasalt", "reshade-installer"]
+notes    = "vkBasalt applies sharpening, CAS and colour tweaks to any Vulkan game, which covers the common ReShade use case. Full ReShade with your shader presets can be injected into a Proton prefix using community installer scripts; it works, but it is a per-game fiddle rather than a checkbox."
+confidence = "medium"
+
+[[app]]
+id       = "minecraft-launcher"
+name     = "Minecraft Launcher"
+strategy = "native"
+tags     = ["gaming"]
+match    = ["minecraft launcher", "minecraft"]
+winget   = ["Mojang.MinecraftLauncher"]
+aur      = ["minecraft-launcher"]
+carry    = ["AppData/Roaming/.minecraft"]
+notes    = "The official launcher has a Linux build. Copy AppData/Roaming/.minecraft to ~/.minecraft and your worlds, resource packs and mods are all there. Bedrock Edition is the one that does not have a Linux version."
+confidence = "high"
+
+[[app]]
+id       = "prism-launcher"
+name     = "Prism Launcher / MultiMC"
+strategy = "native"
+tags     = ["gaming"]
+match    = ["prism launcher", "multimc", "curseforge", "modrinth app"]
+winget   = ["PrismLauncher.PrismLauncher"]
+pacman   = ["prismlauncher"]
+flatpak  = ["org.prismlauncher.PrismLauncher"]
+notes    = "Prism Launcher is in the official repos and is the recommended path for modded Minecraft. It imports MultiMC instances directly, and instance folders copied from Windows work as they are."
+confidence = "high"
+
+# ---------------------------------------------------------------------------
+# Ignore rules
+#
+# These are not applications. They are runtimes, driver payloads, updaters and
+# installer debris that Add/Remove Programs lists but nobody chose to install.
+# Matched entries are dropped before the report is written.
+# ---------------------------------------------------------------------------
+
+[[ignore]]
+reason = "redistributable"
+match  = ["microsoft visual c++", "visual c++ redistributable", "vcredist"]
+
+[[ignore]]
+reason = "redistributable"
+match  = ["microsoft .net runtime", ".net desktop runtime", ".net host", ".net hosting bundle", "microsoft .net framework", "aspnet core runtime"]
+regex  = 'microsoft \.net.*(runtime|host)'
+
+[[ignore]]
+reason = "sdk"
+match  = ["windows software development kit", "windows driver kit", "debugging tools for windows", "universal crt"]
+regex  = '^windows (sdk|driver kit)'
+
+[[ignore]]
+reason = "driver"
+match  = ["intel chipset", "intel management engine", "intel serial io", "intel dynamic platform", "intel processor graphics", "intel graphics driver", "intel rapid storage"]
+
+[[ignore]]
+reason = "driver"
+match  = ["realtek audio", "realtek high definition audio", "realtek card reader", "realtek ethernet", "realtek bluetooth", "realtek wlan"]
+
+[[ignore]]
+reason = "driver"
+match  = ["nvidia graphics driver", "nvidia physx", "nvidia hd audio", "nvidia frameview", "nvidia install application", "nvidia control panel"]
+
+[[ignore]]
+reason = "driver"
+match  = ["amd chipset software", "amd install manager", "amd_chipset", "amd settings", "amd ryzen master sdk"]
+
+[[ignore]]
+reason = "driver"
+match  = ["bluetooth", "wireless lan driver", "wi-fi driver", "network adapter driver", "touchpad driver", "synaptics", "elan", "conexant", "cirrus logic", "waves maxxaudio", "nahimic"]
+
+[[ignore]]
+reason = "driver"
+match  = ["qualcomm atheros", "mediatek wi-fi", "broadcom", "asmedia", "sunwind", "thunderbolt", "usb 3.0 host controller"]
+
+[[ignore]]
+reason = "vendor-oem"
+match  = ["dell update", "dell supportassist", "dell command", "hp support assistant", "hp documentation", "lenovo vantage", "lenovo system update", "myasus", "asus framework service", "acer care center", "msi driver utility"]
+
+[[ignore]]
+reason = "firmware"
+match  = ["bios update", "firmware update utility", "me firmware", "ssd firmware", "smart firmware"]
+
+[[ignore]]
+reason = "updater"
+match  = ["google update", "google updater", "chrome remote desktop host"]
+
+[[ignore]]
+reason = "updater"
+match  = ["microsoft edge webview2", "webview2 runtime", "edge update"]
+
+[[ignore]]
+reason = "updater"
+match  = ["java auto updater", "java update", "adobe refresh manager", "adobe genuine", "adobe acrobat update", "mozilla maintenance service", "brave update", "vivaldi update"]
+
+[[ignore]]
+reason = "game-runtime"
+match  = ["steamworks common redistributables", "steam client bootstrapper redistributable", "directx for", "xna framework", "openal", "physx system software"]
+regex  = 'redistributab(le|les) for (steam|windows)'
+
+[[ignore]]
+reason = "game-runtime"
+match  = ["microsoft directx", "directx runtime", "microsoft games for windows", "gfwlive", "microsoft xna"]
+
+[[ignore]]
+reason = "installer-leftover"
+match  = ["windows installer", "msi installer", "install shield", "installshield", "nsis", "setup files", "uninstall information"]
+regex  = '^\{[0-9a-f-]{36}\}$'
+
+[[ignore]]
+reason = "language-pack"
+match  = ["language pack", "language interface pack", "proofing tools", "spelling dictionaries", "mui pack"]
+regex  = 'language pack \('
+
+[[ignore]]
+reason = "windows-component"
+match  = ["security update for", "update for microsoft", "hotfix for windows", "servicing stack", "windows management framework", "microsoft update health tools"]
+regex  = '^(update|security update|hotfix) for '
+
+[[ignore]]
+reason = "windows-component"
+match  = ["microsoft office click-to-run extensibility", "office 16 click-to-run", "microsoft onenote audio", "microsoft visual studio installer", "windows app runtime", "microsoft edge devtools"]
+
+[[ignore]]
+reason = "telemetry"
+match  = ["crash reporter", "error reporting", "customer experience improvement", "telemetry", "watson"]
+
+[[ignore]]
+reason = "fonts"
+match  = ["font pack", "segoe ui", "microsoft cloud fonts", "adobe fonts"]

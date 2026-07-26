@@ -1,0 +1,216 @@
+name: CI
+
+# Two jobs, deliberately split by language: if the tick goes red, the job name
+# already tells you whether the Python side or the Windows scanner is broken.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      # One version failing should not hide the state of the other two.
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # There is no requirements file, and there should never be one. hop2arch
+      # has zero runtime dependencies, and installing nothing but the two
+      # checking tools keeps proving it: a stray third-party import fails here.
+      - name: Install checking tools
+        run: python -m pip install --upgrade pip "ruff>=0.16,<0.17" "pytest>=9,<10"
+
+      - name: Lint
+        run: ruff check .
+
+      - name: Tests
+        run: pytest -q
+
+      # The test suite runs against its own fixtures, so it can stay green while
+      # the shipped database is broken. This step uses the real data/ directory
+      # and the real example hopfile, with nothing but the standard library. If
+      # a malformed [[app]] entry is ever merged into hop/data/packages.toml, this
+      # is the step that catches it, before a user does.
+      - name: Load the real database and plan the example hopfile
+        run: |
+          python -c '
+          from hop.manifest import Manifest
+          from hop.mapping import Database
+          from hop.plan import Planner
+
+          db = Database.load("hop/data")
+          problems = db.lint()
+          if problems:
+              raise SystemExit("mapping database failed lint:\n  " + "\n  ".join(problems))
+
+          manifest = Manifest.load("examples/hopfile.example.json")
+          plan = Planner(manifest, db).build()
+          score = plan.score["hoppability"]
+          if not isinstance(score, (int, float)) or isinstance(score, bool):
+              raise SystemExit("hoppability is not a number: " + repr(score))
+
+          print("database:", db.stats())
+          print("example plan:", len(plan.items), "items, hoppability", score)
+          '
+
+  # Everything above runs against the source tree, where hop/ and hop/data/ are
+  # simply there. That proves nothing about what a wheel contains. This job
+  # installs the built package and uses it the way a user would.
+  #
+  # Two details make it a real test rather than a decoration, and neither is
+  # optional: it calls the `hop` console script rather than `python -m hop`, and
+  # it runs from a directory outside the checkout. Run it from the checkout and
+  # the source tree shadows the installed copy, and the step passes whatever the
+  # wheel turned out to hold.
+  install:
+    name: install the wheel and use it
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: checkout
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the package
+        run: python -m pip install ./checkout
+
+      - name: Use it from somewhere else entirely
+        working-directory: /tmp
+        run: |
+          hop --version
+          hop db stats
+          python -c '
+          from hop.mapping import Database, default_data_dir
+          where = default_data_dir()
+          print("database found at", where)
+          if "site-packages" not in str(where):
+              raise SystemExit("the installed package fell back to a checkout: " + str(where))
+          problems = Database.load().lint()
+          if problems:
+              raise SystemExit("database failed lint from the installed copy")
+          '
+          hop plan "$GITHUB_WORKSPACE/checkout/examples/hopfile.example.json" -o /tmp/plan.json --no-report
+
+  powershell:
+    name: powershell (hop-scan.ps1)
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Every PowerShell step below runs under `shell: powershell`, which is
+      # Windows PowerShell 5.1, not `pwsh` (PowerShell 7). This is the point of
+      # the job. The scan script has to run on a stock Windows machine, and 5.1
+      # is the only shell guaranteed to be on one. pwsh 7 parses and executes
+      # syntax that 5.1 rejects outright, so checking under pwsh would be
+      # checking a shell the user does not have.
+      - name: Parse hop-scan.ps1 with the Windows PowerShell 5.1 parser
+        shell: powershell
+        run: |
+          $path = Join-Path $PWD "windows\hop-scan.ps1"
+          $tokens = $null
+          $errors = $null
+          $null = [System.Management.Automation.Language.Parser]::ParseFile($path, [ref]$tokens, [ref]$errors)
+          if ($errors -and $errors.Count -gt 0) {
+            foreach ($e in $errors) {
+              $x = $e.Extent
+              Write-Host ("{0}({1},{2}): {3}" -f $x.File, $x.StartLineNumber, $x.StartColumnNumber, $e.Message)
+            }
+            Write-Host ("{0} parse error(s). The scanner must parse on Windows PowerShell 5.1." -f $errors.Count)
+            exit 1
+          }
+          Write-Host ("Parsed clean on PowerShell {0}: {1} tokens." -f $PSVersionTable.PSVersion, $tokens.Count)
+
+      # Parsing proves the file is syntactically PowerShell. It says nothing
+      # about whether the version-stripping, the timestamp arithmetic or the
+      # Valve config parser are correct. These tests lift those functions out of
+      # the syntax tree and call them with synthetic input; the scanner itself is
+      # never executed, here or anywhere in CI, because it reads a real machine.
+      - name: Unit-test the scanner's pure helpers
+        shell: powershell
+        run: .\windows\tests\hop-scan.Tests.ps1
+
+      - name: PSScriptAnalyzer
+        shell: powershell
+        run: |
+          [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+          Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -SkipPublisherCheck
+          Import-Module PSScriptAnalyzer
+
+          # Warnings are printed and then forgiven. The scanner reads a machine
+          # nobody on this project can see, so some of what the analyser dislikes
+          # is a deliberate trade; errors are a different matter.
+          $warnings = @(Invoke-ScriptAnalyzer -Path windows -Recurse -Severity Warning)
+          if ($warnings.Count -gt 0) {
+            Write-Host ("{0} warning(s), reported only:" -f $warnings.Count)
+            $warnings | Format-Table -AutoSize RuleName, Line, ScriptName, Message | Out-String -Width 200 | Write-Host
+          }
+
+          $errors = @(Invoke-ScriptAnalyzer -Path windows -Recurse -Severity Error)
+          if ($errors.Count -gt 0) {
+            Write-Host ("{0} error(s):" -f $errors.Count)
+            $errors | Format-Table -AutoSize RuleName, Line, ScriptName, Message | Out-String -Width 200 | Write-Host
+            exit 1
+          }
+          Write-Host "No error-severity findings."
+
+      # The parser above catches most of this, but not all of it: `&&` and
+      # `-Parallel` are accepted by the 5.1 tokeniser in some positions and only
+      # fail at run time, and we do not run the script anywhere. So the list is
+      # also checked as text, in one place, with the reason attached.
+      - name: Reject PowerShell 7-only syntax
+        shell: powershell
+        run: |
+          # These constructs exist only in PowerShell 7. They either fail to
+          # parse under 5.1 or blow up the moment the line is reached, and the
+          # person running hop scan is on a stock Windows box with 5.1 and no
+          # intention of installing a second shell first.
+          $forbidden = @(
+            @{ Name = "null-coalescing (?? and ??=)";        Pattern = '\?\?' },
+            @{ Name = "null-conditional (?. and ?[)";        Pattern = '\?\.|\?\[' },
+            @{ Name = "ternary (cond ? a : b)";              Pattern = '\s\?\s[^\r\n]*\s:\s' },
+            @{ Name = "ForEach-Object -Parallel";            Pattern = '-Parallel\b' },
+            @{ Name = "&& and || command chaining";          Pattern = '&&|\|\|' }
+          )
+
+          # Recurse: the test file under windows\tests\ has to run on 5.1 too,
+          # and a non-recursive windows\*.ps1 would quietly skip it.
+          $files = @(Get-ChildItem -Path windows -Recurse -Filter *.ps1 | ForEach-Object { $_.FullName })
+          Write-Host ("Checking {0} script(s)." -f $files.Count)
+
+          $failed = $false
+          foreach ($rule in $forbidden) {
+            $hits = @(Select-String -Path $files -Pattern $rule.Pattern)
+            if ($hits.Count -gt 0) {
+              $failed = $true
+              Write-Host ("PowerShell 7-only syntax: {0}" -f $rule.Name)
+              foreach ($h in $hits) {
+                Write-Host ("  {0}:{1}: {2}" -f $h.Filename, $h.LineNumber, $h.Line.Trim())
+              }
+            }
+          }
+          if ($failed) {
+            Write-Host "The scan script must run on Windows PowerShell 5.1. Rewrite the lines above."
+            exit 1
+          }
+          Write-Host "No PowerShell 7-only syntax found."

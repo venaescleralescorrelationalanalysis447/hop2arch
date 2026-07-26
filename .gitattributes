@@ -1,0 +1,18 @@
+# Line endings are pinned rather than left to each machine's git config.
+#
+# CI runs this repository on ubuntu and on windows in the same commit, and the
+# PowerShell job reads the same files as the Python job. LF everywhere is the
+# setting that makes both true: Windows PowerShell 5.1 reads LF without
+# complaint, and a shell script or a TOML file that arrives with CRLF on Linux
+# fails in ways that read as a bug in the file rather than in the checkout.
+* text=auto eol=lf
+
+# The one place the ending is part of the format rather than a preference.
+*.ps1 text eol=lf
+*.sh  text eol=lf
+
+# Not text. Nothing here should be line-ending-converted or diffed as prose.
+*.png binary
+*.jpg binary
+*.ico binary
+*.iso binary
