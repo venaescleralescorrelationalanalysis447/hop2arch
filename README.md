@@ -1,5 +1,12 @@
 # hop2arch
 
+[![CI](https://github.com/Ramirmir/hop2arch/actions/workflows/ci.yml/badge.svg)](https://github.com/Ramirmir/hop2arch/actions/workflows/ci.yml)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org/downloads/)
+[![No dependencies](https://img.shields.io/badge/dependencies-none-brightgreen)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+
+**English** · [Русский](README.ru.md)
+
 Leaving Windows for Arch Linux means erasing an operating system you have lived in for years, and
 the hard part is not the installer — it is knowing, before you commit, what you are giving up.
 hop2arch is not a distribution and not an installer. It is a bridge: it inventories the machine you
@@ -248,11 +255,14 @@ Before opening the pull request:
 ```
 hop db lint              # the whole database, structurally
 hop db search notepad    # check nobody has already covered it
-pytest -q                # 229 tests
+pytest -q                # 509 tests
 ```
 
 A good pull request here is two lines: one program that was in the unknown list, and an entry that
-tells the truth about it.
+tells the truth about it. [CONTRIBUTING.md](CONTRIBUTING.md) has the rest: the full field reference,
+what gets an entry merged, and how to report a bug without pasting your own machine into a public
+issue. If you have found a way to make hop erase the wrong thing, [SECURITY.md](SECURITY.md) says
+what to do instead of opening one.
 
 ## Layout
 
@@ -274,7 +284,7 @@ hop/iso.py             fetching the Arch image and saying honestly what was veri
 hop/usb.py             choosing a removable drive and refusing every other kind.
 hop/install.py         the far side: reads the live disks, asks once, installs.
 hop/cli.py             the only module that prints.
-tests/                 498 tests. No network, and nothing runs against your machine.
+tests/                 509 tests. No network, and nothing runs against your machine.
 windows/hop-scan.ps1   the scanner. PowerShell 5.1, no admin, no network code.
 windows/tests/         unit tests for the scanner's pure helpers, lifted out of its AST.
 ```
@@ -286,7 +296,7 @@ Version 0.1.0. The parts are not equally mature, and the difference matters more
 **The mapping database is the mature part.** `hop/data/packages.toml` and `hop/data/anticheat.toml` are
 hand-written, linted in CI against the real example hopfile, and they are what the project is for.
 
-**The Python is tested.** 498 tests, ruff clean, CI on Python 3.11, 3.12 and 3.13, plus a job that
+**The Python is tested.** 509 tests, ruff clean, CI on Python 3.11, 3.12 and 3.13, plus a job that
 installs the built wheel and uses it from outside the checkout. Writing and auditing that suite
 turned up real defects rather than typos: an AUR helper named in a hand-edited plan was run as a
 program, a payload entry chose the permissions its own private key was restored with, a payload path
@@ -311,6 +321,9 @@ input, and rejects PowerShell 7-only syntax. None of that is the same as reading
 it has not read one. If it fails on yours, `hop scrub` strips the personal parts out of the output
 so the hopfile can go in an issue.
 
-Issues and pull requests: <https://github.com/Ramirmir/hop2arch>
+Issues and pull requests: <https://github.com/Ramirmir/hop2arch>.
+Start with [CONTRIBUTING.md](CONTRIBUTING.md) — the shortest useful contribution is two lines of
+TOML. [SECURITY.md](SECURITY.md) covers what to do about anything that could cost somebody a disk,
+and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) is short enough to read.
 
-MIT.
+MIT, see [LICENSE](LICENSE).
