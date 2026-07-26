@@ -153,9 +153,27 @@ jobs:
       - name: PSScriptAnalyzer
         shell: powershell
         run: |
+          $ErrorActionPreference = 'Stop'
           [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-          Install-Module -Name PSScriptAnalyzer -Scope CurrentUser -Force -SkipPublisherCheck
+
+          # Windows PowerShell 5.1 on a fresh runner has neither the NuGet
+          # package provider nor a trusted PSGallery, and a bare Install-Module
+          # then fails with "No match was found for the specified search
+          # criteria and module name 'PSScriptAnalyzer'" — which reads as though
+          # the module does not exist rather than as though the repository was
+          # never set up. Bootstrap both, and only when the module is not
+          # already there: the runner image sometimes ships it.
+          if (-not (Get-Module -ListAvailable -Name PSScriptAnalyzer)) {
+            Get-PackageProvider -Name NuGet -ForceBootstrap | Out-Null
+            if (Get-PSRepository -Name PSGallery -ErrorAction SilentlyContinue) {
+              Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
+            } else {
+              Register-PSRepository -Default -InstallationPolicy Trusted
+            }
+            Install-Module -Name PSScriptAnalyzer -Repository PSGallery -Scope CurrentUser -Force -SkipPublisherCheck
+          }
           Import-Module PSScriptAnalyzer
+          Write-Host ("PSScriptAnalyzer {0} on PowerShell {1}" -f (Get-Module PSScriptAnalyzer).Version, $PSVersionTable.PSVersion)
 
           # Warnings are printed and then forgiven. The scanner reads a machine
           # nobody on this project can see, so some of what the analyser dislikes
