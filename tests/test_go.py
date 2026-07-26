@@ -180,6 +180,8 @@ class Fakes:
     def __init__(self) -> None:
         self.downloaded: list[str] = []
         self.formatted: list[str] = []
+        self.flushed: list[str] = []
+        self.ejected: list[str] = []
         self.verdict = iso.VerifyResult(
             checksum_ok=True,
             signature_checked=True,
@@ -240,6 +242,25 @@ def fakes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Fakes:
     monkeypatch.setattr(iso, "extract", extract)
     monkeypatch.setattr(iso, "volume_label", volume_label)
     monkeypatch.setattr(usb, "prepare", prepare)
+
+    # The last two hardware calls: getting the bytes out of the write cache and
+    # letting go of the volume. tests/test_usb.py owns both, against a real
+    # Windows-shaped mount like "E:".
+    #
+    # They have to be replaced here rather than left to run, because the fake
+    # prepare above hands back a directory in tmp_path instead of a drive
+    # letter. On Windows that directory happens to sit on C:, so the real code
+    # finds a letter and the tests pass; on Linux there is no letter to find and
+    # every one of them fails. A test whose result depends on which machine ran
+    # it is worse than no test, and this one was green here and red in CI.
+    def flush(_runner: object, _platform: str, mount: str) -> None:
+        state.flushed.append(str(mount))
+
+    def eject(mount: str, **_kwargs: object) -> None:
+        state.ejected.append(str(mount))
+
+    monkeypatch.setattr(usb, "_flush", flush)
+    monkeypatch.setattr(usb, "eject", eject)
     return state
 
 
@@ -675,8 +696,13 @@ def test_a_failure_after_the_stick_was_written_says_the_stick_is_finished(
     # And it is safe to take out of the machine. The ending tells the reader to
     # boot the stick, which means unplugging it, and a stick unplugged with its
     # last writes still in a cache boots to a filesystem error instead.
-    assert "Write-VolumeCache" in runner.commands
-    assert any(call[:1] == ["mountvol"] for call in runner.calls)
+    #
+    # Asserted against the recorded fakes rather than against the PowerShell the
+    # runner saw: which cmdlets that takes is tests/test_usb.py's business, and
+    # pinning them here made this test pass on Windows and fail on Linux for a
+    # reason that had nothing to do with hop go. What matters here is that the
+    # stage ran at all before the ending claimed the stick was finished.
+    assert fakes.ejected, "the medium was never ejected, so it is not safe to unplug"
     assert "flushed and safe to unplug" in flat(transcript)
 
 
